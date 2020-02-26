@@ -44,7 +44,7 @@ Vagrant.configure("2") do |config|
     gw_a.vm.hostname = "a-gw"
 
     # Install some dependencies, and define the NAT
-    node_a1.vm.provision :shell, path: "gw_a.sh", privileged: false    
+    gw_a.vm.provision :shell, path: "gw_a.sh", privileged: false    
 
     # Configuring Network Gateway for Gateway A in Site A
     gw_a.vm.provision :shell, inline: "echo 'Configuring Network Gateway'", run: "always"
@@ -63,6 +63,9 @@ Vagrant.configure("2") do |config|
     node_b1.vm.network "private_network", ip: "10.2.0.2", netmask: "255.255.255.0"
     node_b1.vm.hostname = "b1-node"
 
+    # Install some dependencies
+    node_b1.vm.provision :shell, path: "node_b1.sh", privileged: false    
+
     # Configuring Network Gateway for Node B1 in Site B
     node_b1.vm.provision :shell, inline: "echo 'Configuring Network Gateway'", run: "always"
     node_b1.vm.provision :shell, inline: "route del default gw 10.0.2.2 eth0 2>/dev/null || true", run: "always"
@@ -76,6 +79,15 @@ Vagrant.configure("2") do |config|
     gw_b.vm.network "private_network", ip: "10.2.0.1"
     gw_b.vm.network "private_network", ip: "172.30.30.30", netmask: "255.255.0.0"
     gw_b.vm.hostname = "b-gw"
+
+    # Install some dependencies, and define the NAT
+    gw_b.vm.provision :shell, path: "gw_b.sh", privileged: false    
+
+    # Configuring Network Gateway for Gateway B in Site B
+    gw_b.vm.provision :shell, inline: "echo 'Configuring Network Gateway'", run: "always"
+    gw_b.vm.provision :shell, inline: "route del default gw 10.0.2.2 eth0 2>/dev/null || true", run: "always"
+    gw_b.vm.provision :shell, inline: "route add default gw 172.30.1.1 eth2 2>/dev/null || true", run: "always"    
+    gw_b.vm.provision :shell, inline: "echo 'Network Gateway Configured'", run: "always"        
   end  
 
   # =====================================

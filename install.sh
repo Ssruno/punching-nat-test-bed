@@ -1,2 +1,2 @@
 apt-get update
-apt-get install iputils-ping iptables
+apt-get -y install iputils-ping iptables

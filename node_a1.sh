@@ -1,2 +1,2 @@
 sudo apt-get update
-sudo apt-get install iputils-ping 
+sudo apt-get -y install iputils-ping 

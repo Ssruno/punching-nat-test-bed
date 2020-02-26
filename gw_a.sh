@@ -1,5 +1,5 @@
 sudo apt-get update
-sudo apt-get install iputils-ping iptables
+sudo apt-get -y install iputils-ping iptables
 
 ## NAT traffic going out of the gateways
 sudo iptables -t nat -A POSTROUTING -o eth2 -j MASQUERADE

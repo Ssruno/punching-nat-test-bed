@@ -12,7 +12,49 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "envimation/ubuntu-xenial"
+  # config.vm.box = "envimation/ubuntu-xenial"
+
+  # Site A
+  # Node A1
+  config.vm.define "node_a1" do |node_a1|
+    node_a1.vm.box = "envimation/ubuntu-xenial"
+    node_a1.vm.network "private_network", ip: "10.1.0.2", netmask: "255.255.255.0"
+    node_a1.vm.hostname = "a1.node"
+  end
+
+  # Site B
+  # Node B1
+  config.vm.define "node_b1" do |node_b1|
+    node_b1.vm.box = "envimation/ubuntu-xenial"
+    node_b1.vm.network "private_network", ip: "10.2.0.2", netmask: "255.255.255.0"
+    node_b1.vm.hostname = "b1.node"
+  end
+
+
+  # Gateway Site A
+  config.vm.define "gw_a" do |gw_a|
+    gw_a.vm.box = "envimation/ubuntu-xenial"
+    gw_a.vm.network "private_network", ip: "10.1.0.1"
+    gw_a.vm.network "private_network", ip: "172.16.16.16", netmask: "255.255.0.0"
+    gw_a.vm.hostname = "a.gw"
+ 
+  end
+
+  # Gateway Site B
+  config.vm.define "gw_b" do |gw_b|
+    gw_b.vm.box = "envimation/ubuntu-xenial"
+    gw_b.vm.network "private_network", ip: "10.2.0.1"
+    gw_b.vm.network "private_network", ip: "172.30.30.30", netmask: "255.255.0.0"
+    gw_b.vm.hostname = "b.gw"
+  end
+
+  # Router
+  config.vm.define "router" do |router|
+    router.vm.box = "envimation/ubuntu-xenial"
+    router.vm.network "private_network", ip: "172.16.1.1", netmask: "255.255.0.0"
+    router.vm.network "private_network", ip: "172.30.1.1", netmask: "255.255.0.0"
+    router.vm.hostname = "router"
+  end
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs

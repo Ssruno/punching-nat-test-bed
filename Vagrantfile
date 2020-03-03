@@ -79,7 +79,7 @@ Vagrant.configure("2") do |config|
     gw_b.vm.provision :shell, inline: "echo 'Network Gateway Configured'", run: "always"        
     
     # Install some dependencies, and define the NAT
-    gw_b.vm.provision :shell, path: "gw_b.sh", privileged: false    
+    gw_b.vm.provision :shell, path: "gw_b.sh" #, privileged: false
   end  
 
   # Node B1
@@ -88,14 +88,15 @@ Vagrant.configure("2") do |config|
     node_b1.vm.network "private_network", ip: "10.2.0.2", netmask: "255.255.255.0"
     node_b1.vm.hostname = "node-b1"
 
+    # Install some dependencies
+    node_b1.vm.provision :shell, path: "node_b1.sh" #, privileged: false
+
     # Configuring Network Gateway for Node B1 in Site B
     node_b1.vm.provision :shell, inline: "echo 'Configuring Network Gateway'", run: "always"
     node_b1.vm.provision :shell, inline: "route del default gw 10.0.2.2 eth0 2>/dev/null || true", run: "always"
     node_b1.vm.provision :shell, inline: "route add default gw 10.2.0.1 eth1 2>/dev/null || true", run: "always"
     node_b1.vm.provision :shell, inline: "echo 'Network Gateway Configured'", run: "always"
 
-    # Install some dependencies
-    node_b1.vm.provision :shell, path: "node_b1.sh", privileged: false
   end  
 
 

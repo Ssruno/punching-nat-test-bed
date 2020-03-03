@@ -9,7 +9,7 @@ sudo apt-get -y install dialog debconf-utils apt-utils iputils-ping iptables ipu
 
 # Install libs
 sudo apt-get install -y net-tools locate vim nano tcpdump dnsutils traceroute curl git-core
-# Install iptables-persistent
+# Install iptables-persistent to persist the changes
 sudo echo iptables-persistent iptables-persistent/autosave_v4 boolean true | debconf-set-selections
 sudo echo iptables-persistent iptables-persistent/autosave_v6 boolean true | debconf-set-selections
 sudo apt-get install -y iptables-persistent
@@ -23,9 +23,6 @@ sudo iptables --table nat --delete-chain
 
 sudo iptables --table nat --append POSTROUTING --out-interface eth2 -j MASQUERADE
 sudo iptables --append FORWARD --in-interface eth1 -j ACCEPT
-
-#sudo iptables -t nat -A POSTROUTING -o eth2 -j MASQUERADE
-#sudo iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE
 
 ## Save the rules
 sudo iptables-save > /etc/iptables/rules.v4

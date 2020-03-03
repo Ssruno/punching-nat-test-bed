@@ -4,14 +4,14 @@ sudo apt-get update && apt-get upgrade
 sudo echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
 sudo sysctl -p /etc/sysctl.conf
 
-sudo apt-get -y install dialog debconf-utils apt-utils iputils-ping iptables
+sudo apt-get -y install dialog debconf-utils apt-utils iputils-ping iptables iputils-tracepath traceroute
 
 # Install libs
-sudo apt install -y net-tools locate vim nano tcpdump dnsutils traceroute curl git-core
+sudo apt-get install -y net-tools locate vim nano tcpdump dnsutils traceroute curl git-core
 # Install iptables-persistent
 sudo echo iptables-persistent iptables-persistent/autosave_v4 boolean true | debconf-set-selections
 sudo echo iptables-persistent iptables-persistent/autosave_v6 boolean true | debconf-set-selections
-sudo apt install -y iptables-persistent
+sudo apt-get install -y iptables-persistent
 
 
 ## NAT traffic going out of the gateways

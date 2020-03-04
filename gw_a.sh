@@ -14,6 +14,11 @@ sudo echo iptables-persistent iptables-persistent/autosave_v4 boolean true | deb
 sudo echo iptables-persistent iptables-persistent/autosave_v6 boolean true | debconf-set-selections
 sudo apt-get install -y iptables-persistent
 
+# How to see NAT table with line numbers
+# sudo iptables -t nat -L --line-numbers -n
+
+# How to see NAT table with counters
+# sudo iptables -t nat -L -n -v
 
 ## NAT traffic going out of the gateways
 sudo iptables --flush
@@ -22,7 +27,8 @@ sudo iptables --delete-chain
 sudo iptables --table nat --delete-chain
 
 sudo iptables --table nat --append POSTROUTING --out-interface eth2 -j MASQUERADE
-sudo iptables --append FORWARD --in-interface eth1 -j ACCEPT
+sudo iptables --table nat --append POSTROUTING --out-interface eth0 -j MASQUERADE
+#sudo iptables --append FORWARD --in-interface eth1 -j ACCEPT
 
 ## Save the rules
 sudo iptables-save > /etc/iptables/rules.v4

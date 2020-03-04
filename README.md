@@ -30,3 +30,6 @@ check debconf
 
 
 make A reacH b in testing, and change the order, first NAT then provision.
+
+Go in boxes directory and do
+make base_vm

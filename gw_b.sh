@@ -14,6 +14,11 @@ sudo echo iptables-persistent iptables-persistent/autosave_v4 boolean true | deb
 sudo echo iptables-persistent iptables-persistent/autosave_v6 boolean true | debconf-set-selections
 sudo apt-get install -y iptables-persistent
 
+# How to see NAT table with line numbers
+# sudo iptables -t nat -L --line-numbers -n
+
+# How to see NAT table with counters
+# sudo iptables -t nat -L -n -v
 
 ## NAT traffic going out of the gateways
 sudo iptables --flush

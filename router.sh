@@ -1,5 +1,6 @@
 sudo apt-get update && apt-get upgrade
 
+
 # Enable ipv4 forwarding
 sudo echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
 sudo sysctl -p /etc/sysctl.conf

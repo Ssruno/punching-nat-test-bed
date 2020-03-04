@@ -28,7 +28,7 @@ Vagrant.configure("2") do |config|
   # Gateway Site A
   config.vm.define "gw_a" do |gw_a|
     gw_a.vm.box = "envimation/ubuntu-xenial"
-    gw_a.vm.network "private_network", ip: "10.1.0.1"
+    gw_a.vm.network "private_network", ip: "10.40.40.40"
     gw_a.vm.network "private_network", ip: "172.40.40.40", netmask: "255.255.0.0"
     gw_a.vm.hostname = "gw-a"
  
@@ -47,17 +47,17 @@ Vagrant.configure("2") do |config|
   # Node A1
   config.vm.define "node_a1" do |node_a1|
     node_a1.vm.box = "envimation/ubuntu-xenial"
-    node_a1.vm.network "private_network", ip: "10.1.0.2", netmask: "255.255.255.0"
+    node_a1.vm.network "private_network", ip: "10.40.40.5", netmask: "255.255.255.0"
     node_a1.vm.hostname = "node-a1"
-
-    # Install some dependencies
-    node_a1.vm.provision :shell, path: "node_a1.sh", privileged: false    
     
     # Configuring Network Gateway for Node A1 in Site A
     node_a1.vm.provision :shell, inline: "echo 'Configuring Network Gateway'", run: "always"
     node_a1.vm.provision :shell, inline: "route del default gw 10.0.2.2 eth0 2>/dev/null || true", run: "always"
-    node_a1.vm.provision :shell, inline: "route add default gw 10.1.0.1 eth1 2>/dev/null || true", run: "always"
+    node_a1.vm.provision :shell, inline: "route add default gw 10.40.40.40 eth1 2>/dev/null || true", run: "always"
     node_a1.vm.provision :shell, inline: "echo 'Network Gateway Configured'", run: "always"
+    
+    # Install some dependencies
+    node_a1.vm.provision :shell, path: "node_a1.sh", privileged: false    
     
   end  
 
@@ -68,7 +68,7 @@ Vagrant.configure("2") do |config|
   # Gateway Site B
   config.vm.define "gw_b" do |gw_b|
     gw_b.vm.box = "envimation/ubuntu-xenial"
-    gw_b.vm.network "private_network", ip: "10.2.0.1"
+    gw_b.vm.network "private_network", ip: "10.50.50.50"
     gw_b.vm.network "private_network", ip: "172.50.50.50", netmask: "255.255.0.0"
     gw_b.vm.hostname = "gw-b"
     
@@ -85,7 +85,7 @@ Vagrant.configure("2") do |config|
   # Node B1
   config.vm.define "node_b1" do |node_b1|
     node_b1.vm.box = "envimation/ubuntu-xenial"
-    node_b1.vm.network "private_network", ip: "10.2.0.2", netmask: "255.255.255.0"
+    node_b1.vm.network "private_network", ip: "10.50.50.5", netmask: "255.255.255.0"
     node_b1.vm.hostname = "node-b1"
 
     # Install some dependencies
@@ -94,7 +94,7 @@ Vagrant.configure("2") do |config|
     # Configuring Network Gateway for Node B1 in Site B
     node_b1.vm.provision :shell, inline: "echo 'Configuring Network Gateway'", run: "always"
     node_b1.vm.provision :shell, inline: "route del default gw 10.0.2.2 eth0 2>/dev/null || true", run: "always"
-    node_b1.vm.provision :shell, inline: "route add default gw 10.2.0.1 eth1 2>/dev/null || true", run: "always"
+    node_b1.vm.provision :shell, inline: "route add default gw 10.50.50.50 eth1 2>/dev/null || true", run: "always"
     node_b1.vm.provision :shell, inline: "echo 'Network Gateway Configured'", run: "always"
 
   end  

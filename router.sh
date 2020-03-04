@@ -1,23 +1,13 @@
-sudo apt-get update && apt-get upgrade
+#!/usr/bin/env bash
 
+# How to see NAT table with line numbers
+# sudo iptables -t nat -L --line-numbers -n
 
-# Enable ipv4 forwarding
-sudo echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
-sudo sysctl -p /etc/sysctl.conf
-
-sudo apt-get -y install dialog debconf-utils apt-utils iputils-ping iptables iputils-tracepath traceroute
-
-# Install libs
-sudo apt-get install -y net-tools locate vim nano tcpdump dnsutils traceroute curl git-core
-# Install iptables-persistent
-sudo echo iptables-persistent iptables-persistent/autosave_v4 boolean true | debconf-set-selections
-sudo echo iptables-persistent iptables-persistent/autosave_v6 boolean true | debconf-set-selections
-sudo apt-get install -y iptables-persistent
-
+# How to see NAT table with counters
+# sudo iptables -t nat -L -n -v
 
 ## NAT traffic going out of the gateways
 sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-
 
 ## Save the rules
 sudo iptables-save > /etc/iptables/rules.v4

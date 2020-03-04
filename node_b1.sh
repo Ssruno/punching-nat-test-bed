@@ -1,2 +1,1 @@
-sudo apt-get update && apt-get upgrade
-sudo apt-get -y install iputils-ping  iputils-tracepath traceroute
+#!/usr/bin/env bash

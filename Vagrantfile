@@ -71,7 +71,7 @@ Vagrant.configure("2") do |config|
   # Gateway Site B
   config.vm.define "gw_b" do |gw_b|
     gw_b.vm.box = "base-punch-nat"
-    gw_b.vm.network "private_network", ip: "10.40.40.40",  netmask: "255.255.255.0", virtualbox__intnet: true
+    gw_b.vm.network "private_network", ip: "10.50.50.50",  netmask: "255.255.255.0", virtualbox__intnet: true
     gw_b.vm.network "private_network", ip: "172.19.19.19", netmask: "255.255.0.0", virtualbox__intnet: true
     gw_b.vm.hostname = "gw-b"
     
@@ -90,7 +90,7 @@ Vagrant.configure("2") do |config|
   # Node B1
   config.vm.define "node_b1" do |node_b1|
     node_b1.vm.box = "base-punch-nat"
-    node_b1.vm.network "private_network", ip: "10.40.40.6", netmask: "255.255.255.0", virtualbox__intnet: true
+    node_b1.vm.network "private_network", ip: "10.50.50.6", netmask: "255.255.255.0", virtualbox__intnet: true
     node_b1.vm.hostname = "node-b1"
 
     # Install some dependencies
@@ -99,7 +99,7 @@ Vagrant.configure("2") do |config|
     # Configuring Network Gateway for Node B1 in Site B
     node_b1.vm.provision :shell, inline: "echo 'Configuring Network Gateway'", run: "always"
     node_b1.vm.provision :shell, inline: "route del default gw 10.0.2.2 eth0 2>/dev/null || true", run: "always"
-    node_b1.vm.provision :shell, inline: "route add default gw 10.40.40.40 eth1 2>/dev/null || true", run: "always"
+    node_b1.vm.provision :shell, inline: "route add default gw 10.50.50.50 eth1 2>/dev/null || true", run: "always"
     node_b1.vm.provision :shell, inline: "echo 'Network Gateway Configured'", run: "always"
 
     node_b1.vm.post_up_message = "(Node) 'B1' that emulates an end point in site B -- IS UP AND READY !!!"

@@ -1,35 +1,47 @@
-# punching-nat-test-bed
-Test bed for hole punching NATs
+# Test bed for hole punching NATs
+![Net Diagram](docs/base_test_bed.png  "Net Diagram")
+#### Tested with
+- Vagrant (v 2.2.7)
+	- box: "envimation/ubuntu-xenial"
+- Virtualbox (v 6.1.4-2)
+	- Networking mode of interfaces: "Internal networking" (intnet)
+#### Name of hosts/VMs
 
-TODO: 
+- router
+	- **eth1:** 172.18.1.1/16
+	- **eth2:** 172.19.1.1/16
+	- NAT:
+		iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+- gw_a
+	- **eth1:** 10.40.40.40/24
+	- **eth2:** 172.18.18.18/16
+	- NAT:
+		iptables --table nat --append POSTROUTING --out-interface eth2 -j MASQUERADE
+		iptables --table nat --append POSTROUTING --out-interface eth0 -j MASQUERADE
+- node_a1
+	- **eth1:** 10.40.40.5/24
+- gw_b
+	- **eth1:** 10.50.50.50/24
+	- **eth2:** 172.19.19.19/16
+	- NAT:
+		iptables --table nat --append POSTROUTING --out-interface eth2 -j MASQUERADE
+		iptables --table nat --append POSTROUTING --out-interface eth0 -j MASQUERADE	
+- node_b1
+	- **eth1:** 10.50.50.6/24
+#### Run the test bed
+	# Generate the base image
+	cd boxes/base
+	make base_vm
+	# Run the test bed
+	cd ../..
+	vagrant up
+	
+To access the VMs, run:
 
-Add Google DNS to hosts
-envimation/ubuntu-xenial check current version, and hardcode it.
-Do diagram
-
-check debconf
-
-    gw_a: debconf: unable to initialize frontend: Dialog
-    gw_a: debconf: (No usable dialog-like program is installed, so the dialog based frontend cannot be used. at /usr/share/perl5/Debconf/FrontEnd/Dialog.pm line 76, <> line 2.)
-    gw_a: debconf: falling back to frontend: Readline
-    gw_a: debconf: unable to initialize frontend: Readline
-    gw_a: debconf: (This frontend requires a controlling tty.)
-    gw_a: debconf: falling back to frontend: Teletype
-    gw_a: dpkg-preconfigure: unable to re-open stdin: 
+	vagrant ssh [VMNAME]
 
 
-    gw_a: WARNING: 
-    gw_a: apt
-    gw_a:  
-    gw_a: does not have a stable CLI interface. 
-    gw_a: Use with caution in scripts.
+#### TODO: 
 
+- Add Google DNS to hosts
 
-
-    gw_a: debconf: delaying package configuration, since apt-utils is not installed
-
-
-make A reacH b in testing, and change the order, first NAT then provision.
-
-Go in boxes directory and do
-make base_vm

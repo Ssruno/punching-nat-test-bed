@@ -1,6 +1,7 @@
 # Test bed for hole punching NATs
 ![Net Diagram](docs/base_test_bed.png  "Net Diagram")
 #### Tested with
+- GNU/Linux 4.14.171-1-MANJARO
 - Vagrant (v 2.2.7)
 	- box: "envimation/ubuntu-xenial"
 - Virtualbox (v 6.1.4-2)

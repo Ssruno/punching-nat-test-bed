@@ -14,6 +14,9 @@ Vagrant.configure("2") do |config|
     # Interface towards Site B
     router.vm.network "private_network", ip: "172.19.1.1", netmask: "255.255.0.0", virtualbox__intnet: true
 
+    # Interface towards Nebula Lighthouse
+    #router.vm.network "private_network", ip: "172.20.1.1", netmask: "255.255.0.0", virtualbox__intnet: true
+
     router.vm.hostname = "router"
 
     # Install some dependencies, and define the NAT
@@ -22,6 +25,21 @@ Vagrant.configure("2") do |config|
     router.vm.post_up_message = "(Fake) 'ROUTER' that emulates the connection to the internet -- IS UP AND READY !!!"
   end
 
+  # =====================================
+  # Lighthouse
+  # =====================================
+  config.vm.define "lighthouse" do |lighthouse1|
+    lighthouse1.vm.box = "base-punch-nat"
+    # Interface 
+    #lighthouse1.vm.network "private_network", ip: "172.20.1.100", netmask: "255.255.0.0", virtualbox__intnet: true
+    
+    lighthouse1.vm.hostname = "lighthouse1"
+
+    # Setup nebula
+    lighthouse1.vm.provision :shell, path: "lighthouse1.sh"    
+    
+    lighthouse1.vm.post_up_message = "(Lighthouse) 'lighthouse1' that emulates the connection to the nebula lighthouse -- IS UP AND READY !!!"
+  end  
 
   # =====================================
   # Site A
@@ -62,6 +80,24 @@ Vagrant.configure("2") do |config|
     node_a1.vm.provision :shell, path: "node_a1.sh"
 
     node_a1.vm.post_up_message = "(Node) 'A1' that emulates an end point in site A -- IS UP AND READY !!!"
+  end 
+
+  # Node A2
+  config.vm.define "node_a2" do |node_a2|
+    node_a2.vm.box = "base-punch-nat"
+    node_a2.vm.network "private_network", ip: "10.40.40.6", netmask: "255.255.255.0", virtualbox__intnet: true
+    node_a2.vm.hostname = "node-a2"
+    
+    # Configuring Network Gateway for Node A2 in Site A
+    node_a2.vm.provision :shell, inline: "echo 'Configuring Network Gateway'", run: "always"
+    node_a2.vm.provision :shell, inline: "route del default gw 10.0.2.2 eth0 2>/dev/null || true", run: "always"
+    node_a2.vm.provision :shell, inline: "route add default gw 10.40.40.40 eth1 2>/dev/null || true", run: "always"
+    node_a2.vm.provision :shell, inline: "echo 'Network Gateway Configured'", run: "always"
+    
+    # Install some dependencies
+    node_a2.vm.provision :shell, path: "node_a2.sh"
+
+    node_a2.vm.post_up_message = "(Node) 'A2' that emulates an end point in site A -- IS UP AND READY !!!"
   end  
 
   # =====================================

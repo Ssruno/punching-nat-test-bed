@@ -45,3 +45,5 @@ To access the VMs, run:
 
 - Add Google DNS to hosts
 
+#### DEBUG: 
+- vagrant up --debug &> vagrant.log

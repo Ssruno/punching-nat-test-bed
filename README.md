@@ -43,7 +43,16 @@ To access the VMs, run:
 
 #### TODO: 
 
-- Add Google DNS to hosts
+- [ ] Add Google DNS to hosts
+- [ ] Check linked clones for Vagrant
+- [x] For the default NAT interface of Vagrant, configure manually a different MAC and Space address
+- [ ] Do we need promiscuous mode?
 
 #### DEBUG: 
 - vagrant up --debug &> vagrant.log
+- VBoxManage list --long intnets
+- VBoxManage list --long runningvms
+- VBoxManage list runningvms
+- VBoxManage showvminfo <uuid|vmname> --machinereadable
+- VBoxManage showvminfo <uuid|vmname> --details
+- VBoxManage natnetwork list [<pattern>]

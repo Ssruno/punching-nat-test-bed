@@ -38,15 +38,7 @@
 	
 To access the VMs, run:
 
-	vagrant ssh [VMNAME]
-
-
-#### TODO: 
-
-- [ ] Add Google DNS to hosts
-- [ ] Check linked clones for Vagrant
-- [x] For the default NAT interface of Vagrant, configure manually a different MAC and Space address
-- [ ] Do we need promiscuous mode?
+	vagrant ssh <node_a1|gw_a|router|gw_b|node_b1>
 
 #### DEBUG: 
 - vagrant up --debug &> vagrant.log
@@ -56,3 +48,12 @@ To access the VMs, run:
 - VBoxManage showvminfo <uuid|vmname> --machinereadable
 - VBoxManage showvminfo <uuid|vmname> --details
 - VBoxManage natnetwork list [<pattern>]
+
+#### TODO: 
+
+- [ ] Add Google DNS to hosts
+- [ ] Check linked clones for Vagrant
+- [x] For the default NAT interface of Vagrant, configure manually a different MAC and Space address
+- [ ] Do we need promiscuous mode?
+- [ ] Check if we need --natdnsproxy1 and --natdnsproxy1
+- [ ] Try to loop the creationg process

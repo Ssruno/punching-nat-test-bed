@@ -52,8 +52,10 @@ To access the VMs, run:
 #### TODO: 
 
 - [ ] Add Google DNS to hosts
-- [ ] Check linked clones for Vagrant
+- [x] Check linked clones for Vagrant
 - [x] For the default NAT interface of Vagrant, configure manually a different MAC and Space address
 - [ ] Do we need promiscuous mode?
 - [ ] Check if we need --natdnsproxy1 and --natdnsproxy1
 - [ ] Try to loop the creationg process
+- [ ] Check vagrant-vbguest plugin for downloading the right VirtualBox Guest Additions
+- [ ] Add references to documentation

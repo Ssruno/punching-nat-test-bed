@@ -19,6 +19,8 @@ Vagrant.configure("2") do |config|
       # of the 10.0 and we force the MAC address. Otherwise all vms has the same internal address
       v.customize ['modifyvm', :id, '--natnet1', '192.168.111.0/24']
       v.customize ['modifyvm', :id, '--macaddress1', "5CA1AB1E0041"]
+      v.linked_clone = true
+      v.name = "router"
     end
     # Install some dependencies, and define the NAT
     router.vm.provision :shell, path: "router.sh"
@@ -40,6 +42,8 @@ Vagrant.configure("2") do |config|
       # of the 10.0 and we force the MAC address. Otherwise all vms has the same internal address      
       v.customize ['modifyvm', :id, '--natnet1', '192.168.112.0/24']
       v.customize ['modifyvm', :id, '--macaddress1', "5CA1AB1E0042"]
+      v.linked_clone = true
+      v.name = "gw-a"
     end
      # Configuring Network Gateway for Gateway A in Site A
     gw_a.vm.provision :shell, run: "always", inline: <<-SHELL
@@ -63,6 +67,8 @@ Vagrant.configure("2") do |config|
       # of the 10.0 and we force the MAC address. Otherwise all vms has the same internal address
       v.customize ['modifyvm', :id, '--natnet1', '192.168.113.0/24']
       v.customize ['modifyvm', :id, '--macaddress1', "5CA1AB1E0043"]
+      v.linked_clone = true
+      v.name = "node-a1"
     end
     # Configuring Network Gateway for Node A1 in Site A
     node_a1.vm.provision :shell, run: "always", inline: <<-SHELL
@@ -91,6 +97,8 @@ Vagrant.configure("2") do |config|
       # of the 10.0 and we force the MAC address. Otherwise all vms has the same internal address
       v.customize ['modifyvm', :id, '--natnet1', '192.168.114.0/24']
       v.customize ['modifyvm', :id, '--macaddress1', "5CA1AB1E0044"]
+      v.linked_clone = true
+      v.name = "gw-b"
     end
     # Configuring Network Gateway for Gateway B in Site B
     gw_b.vm.provision :shell, run: "always", inline: <<-SHELL
@@ -114,6 +122,8 @@ Vagrant.configure("2") do |config|
       # of the 10.0 and we force the MAC address. Otherwise all vms has the same internal address
       v.customize ['modifyvm', :id, '--natnet1', '192.168.115.0/24']
       v.customize ['modifyvm', :id, '--macaddress1', "5CA1AB1E0045"]
+      v.linked_clone = true
+      v.name = "node-b1"
     end
     # Configuring Network Gateway for Node B1 in Site B
     node_b1.vm.provision :shell, run: "always", inline: <<-SHELL

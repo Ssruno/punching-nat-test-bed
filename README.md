@@ -48,6 +48,7 @@ To access the VMs, run:
 - VBoxManage showvminfo <uuid|vmname> --machinereadable
 - VBoxManage showvminfo <uuid|vmname> --details
 - VBoxManage natnetwork list [<pattern>]
+- vagrant vbguest base_punch  --status
 
 #### TODO: 
 
@@ -57,5 +58,5 @@ To access the VMs, run:
 - [ ] Do we need promiscuous mode?
 - [ ] Check if we need --natdnsproxy1 and --natdnsproxy1
 - [ ] Try to loop the creationg process
-- [ ] Check vagrant-vbguest plugin for downloading the right VirtualBox Guest Additions
+- [x] Check vagrant-vbguest plugin for downloading the right VirtualBox Guest Additions
 - [ ] Add references to documentation

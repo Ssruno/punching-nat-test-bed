@@ -16,4 +16,8 @@ sudo echo iptables-persistent iptables-persistent/autosave_v6 boolean true | deb
 sudo apt-get install -y iptables-persistent
 
 # Install libs
-sudo apt-get install -y net-tools locate vim nano tcpdump dnsutils traceroute curl git-core
+sudo apt-get install -y net-tools locate vim nano tcpdump dnsutils traceroute curl git-core bzip2
+
+# Create the directory for mounting the VirtualBox Guest Additions
+# sudo mkdir /tmp/mount
+# sudo chmod 777 /tmp/mount

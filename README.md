@@ -1,5 +1,5 @@
 # Test bed for hole punching NATs
-![Net Diagram](docs/base_test_bed.png  "Net Diagram")
+![Net Diagram](docs/test_bed_v0.3-alpha.png  "Net Diagram")
 #### Tested with
 - Vagrant (v 2.2.7)
 	- box: "envimation/ubuntu-xenial"
@@ -21,13 +21,13 @@
 - node_a1
 	- **eth1:** 10.40.40.5/24
 - gw_b
-	- **eth1:** 10.50.50.50/24
+	- **eth1:** 10.40.40.40/24
 	- **eth2:** 172.19.19.19/16
 	- NAT:
 		- iptables --table nat --append POSTROUTING --out-interface eth2 -j MASQUERADE
 		- iptables --table nat --append POSTROUTING --out-interface eth0 -j MASQUERADE	
 - node_b1
-	- **eth1:** 10.50.50.6/24
+	- **eth1:** 10.40.40.7/24
 #### Run the test bed
 	# Generate the base image
 	cd boxes/base

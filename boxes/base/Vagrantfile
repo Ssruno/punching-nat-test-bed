@@ -1,8 +1,33 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+unless Vagrant.has_plugin?("vagrant-vbguest")
+  puts 'Installing vagrant-vbguest Plugin...'
+  system('vagrant plugin install vagrant-vbguest')
+end
+
+# unless Vagrant.has_plugin?("vagrant-reload")
+#   puts 'Installing vagrant-reload Plugin...'
+#   system('vagrant plugin install vagrant-reload')
+# end
+
 Vagrant.configure("2") do |config|
 
   config.vm.define "base_punch" do |base|
     base.vm.box = "envimation/ubuntu-xenial"
+
+    # Set the needed config for installing VirtualBox Guest Additions later in the make file    
+    base.vbguest.auto_update = false
+    base.vbguest.iso_mount_point = "/tmp/mount"    
+
+    # Set the name of the VM (not the hostname but the actual VM name in VirtualBox)
+    base.vm.provider "virtualbox" do |v|
+      v.name = "punch-nat"
+      # First we create the /tmp/mount directory with root owner and 777 permission
+      v.customize "post-comm", ['guestcontrol', :id, 'run', '--exe', '/usr/bin/sudo', '--username', 'vagrant', '--password', 'vagrant', '--wait-stdout', '--wait-stderr', '--', 'sudo/arg0', '/bin/mkdir', '--mode', '777', '/tmp/mount']    
+    end
     # Install some dependencies
     base.vm.provision :shell, path: "provision.sh"
+    # base.vm.provision :reload    
   end
 end

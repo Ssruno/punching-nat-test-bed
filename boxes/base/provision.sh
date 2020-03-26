@@ -8,7 +8,7 @@ sudo echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
 sudo sysctl -p /etc/sysctl.conf
 
 # Install tools for networking
-sudo apt-get -y install dialog debconf-utils apt-utils iputils-ping iptables iputils-tracepath traceroute
+sudo apt-get -y install dialog debconf-utils apt-utils iputils-ping iptables iputils-tracepath traceroute netcat
 
 # Install iptables-persistent
 sudo echo iptables-persistent iptables-persistent/autosave_v4 boolean true | debconf-set-selections

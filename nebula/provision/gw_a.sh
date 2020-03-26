@@ -12,9 +12,8 @@ sudo iptables --table nat --flush
 sudo iptables --delete-chain
 sudo iptables --table nat --delete-chain
 
+# The NAT
 sudo iptables --table nat --append POSTROUTING --out-interface eth2 -j MASQUERADE
-sudo iptables --table nat --append POSTROUTING --out-interface eth0 -j MASQUERADE
-#sudo iptables --append FORWARD --in-interface eth1 -j ACCEPT
 
 ## Save the rules
 sudo iptables-save > /etc/iptables/rules.v4

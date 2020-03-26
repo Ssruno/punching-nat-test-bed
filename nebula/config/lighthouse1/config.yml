@@ -4,9 +4,9 @@
 # PKI defines the location of credentials for this node. Each of these can also be inlined by using the yaml ": |" syntax.
 pki:
   # The CAs that are accepted by this node. Must contain one or more certificates created by 'nebula-cert ca'
-  ca: /vagrant/nebula/files/ca.crt
-  cert: /vagrant/nebula/files/lighthouse1.crt
-  key: /vagrant/nebula/files/lighthouse1.key
+  ca: /vagrant/files/ca.crt
+  cert: /vagrant/files/lighthouse1.crt
+  key: /vagrant/files/lighthouse1.key
   #blacklist is a list of certificate fingerprints that we will refuse to talk to
   #blacklist:
   #  - c99d4e650533b92061b09918e838a5a0a6aaee21eed1d12fd937682865936c72
@@ -17,7 +17,7 @@ pki:
 #   "{nebula ip}": ["{routable ip/dns name}:{routable port}"]
 # Example, if your lighthouse has the nebula IP of 192.168.100.1 and has the real ip address of 100.64.22.11 and runs on port 4242:
 static_host_map:
-  "192.200.1.100": ["10.0.2.15:4242"]
+  "192.200.1.100": ["172.20.1.100:4242"]
 
 
 lighthouse:
@@ -114,7 +114,7 @@ tun:
 # Configure logging level
 logging:
   # panic, fatal, error, warning, info, or debug. Default is info
-  level: info
+  level: debug
   # json or text formats currently available. Default is text
   format: text
   # timestamp format is specified in Go time format, see:

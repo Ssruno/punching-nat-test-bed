@@ -4,9 +4,9 @@
 # PKI defines the location of credentials for this node. Each of these can also be inlined by using the yaml ": |" syntax.
 pki:
   # The CAs that are accepted by this node. Must contain one or more certificates created by 'nebula-cert ca'
-  ca: /vagrant/nebula/files/ca.crt
-  cert: /vagrant/nebula/files/node-a2.crt
-  key: /vagrant/nebula/files/node-a2.key
+  ca: /vagrant/files/ca.crt
+  cert: /vagrant/files/node-a2.crt
+  key: /vagrant/files/node-a2.key
   #blacklist is a list of certificate fingerprints that we will refuse to talk to
   #blacklist:
   #  - c99d4e650533b92061b09918e838a5a0a6aaee21eed1d12fd937682865936c72
@@ -17,7 +17,7 @@ pki:
 #   "{nebula ip}": ["{routable ip/dns name}:{routable port}"]
 # Example, if your lighthouse has the nebula IP of 192.168.100.1 and has the real ip address of 100.64.22.11 and runs on port 4242:
 static_host_map:
-  "192.200.1.9": ["10.40.40.6:4242"]
+  "192.200.1.100": ["172.20.1.100:4242"]
 
 
 lighthouse:
@@ -67,7 +67,7 @@ punchy: true
 
 # Local range is used to define a hint about the local network range, which speeds up discovering the fastest
 # path to a network adjacent nebula node.
-#local_range: "172.16.0.0/24"
+#local_range: "10.40.40.0/24"
 
 # sshd can expose informational and administrative functions via ssh this is a
 #sshd:
@@ -114,7 +114,7 @@ tun:
 # Configure logging level
 logging:
   # panic, fatal, error, warning, info, or debug. Default is info
-  level: info
+  level: debug
   # json or text formats currently available. Default is text
   format: text
   # timestamp format is specified in Go time format, see:

@@ -3,3 +3,4 @@
 nebula/files/
 *.tar.gz
 *.log
+*.out

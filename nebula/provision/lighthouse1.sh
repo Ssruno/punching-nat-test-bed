@@ -1,12 +1,19 @@
 #!/usr/bin/env bash
 
-tar -xvf /vagrant/nebula/nebula-linux-amd64.tar.gz -C /vagrant/nebula/files
-cd /vagrant/nebula/files/
-/vagrant/nebula/files/nebula-cert ca -name "Andromeda Galaxy, Inc"
+# Delete certificates, binaries, etc from previous Nebula deployment
+if [ -n "$(ls -A /vagrant/files/ 2>/dev/null)" ]
+then
+  rm -rf /vagrant/files/*
+fi
 
-/vagrant/nebula/files/nebula-cert sign -name "lighthouse1" -ip "192.200.1.100/24"
-/vagrant/nebula/files/nebula-cert sign -name "node-a1"     -ip "192.200.1.4/24" 
-/vagrant/nebula/files/nebula-cert sign -name "node-a2"     -ip "192.200.1.9/24" 
-/vagrant/nebula/files/nebula-cert sign -name "node-b1"     -ip "192.200.1.13/24"
+tar -xvf /vagrant/nebula-linux-amd64.tar.gz -C /vagrant/files
+cd /vagrant/files/
+/vagrant/files/nebula-cert ca -name "Andromeda Galaxy, Inc"
 
-sudo /vagrant/nebula/files/nebula -config /vagrant/nebula/config/lighthouse1/config.yml &
+/vagrant/files/nebula-cert sign -name "lighthouse1" -ip "192.200.1.100/24"
+/vagrant/files/nebula-cert sign -name "node-a1"     -ip "192.200.1.5/24" 
+/vagrant/files/nebula-cert sign -name "node-a2"     -ip "192.200.1.6/24" 
+/vagrant/files/nebula-cert sign -name "node-b1"     -ip "192.200.1.7/24"
+/vagrant/files/nebula-cert sign -name "node-b2"     -ip "192.200.1.8/24"
+
+#sudo /vagrant/files/nebula -config /vagrant/config/lighthouse1/config.yml &

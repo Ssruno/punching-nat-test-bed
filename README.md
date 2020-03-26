@@ -6,6 +6,7 @@
 	- box: "envimation/ubuntu-xenial"
 - Virtualbox (v 6.1.4-2)
 	- Networking mode of interfaces: "Internal networking" (intnet)
+- Nebula v 1.1.0	
 #### Name of hosts/VMs
 
 - router

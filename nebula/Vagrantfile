@@ -12,9 +12,12 @@ Vagrant.configure("2") do |config|
     router.vm.network "private_network", ip: "172.18.1.1", netmask: "255.255.0.0", virtualbox__intnet: true
     # Interface towards Site B
     router.vm.network "private_network", ip: "172.19.1.1", netmask: "255.255.0.0", virtualbox__intnet: true    
+    # Interface towards Lighthouse
+    router.vm.network "private_network", ip: "172.20.1.1", netmask: "255.255.0.0", virtualbox__intnet: true
     router.vm.provider "virtualbox" do |v|
       v.customize ['modifyvm', :id, '--intnet2', 'router-network-a']  # OK eth1 172.18.1.1
-      v.customize ['modifyvm', :id, '--intnet3', 'router-network-b']  # OK eth2 172.19.1.1      
+      v.customize ['modifyvm', :id, '--intnet3', 'router-network-b']  # OK eth2 172.19.1.1
+      v.customize ['modifyvm', :id, '--intnet4', 'fake-internet']     # OK eth3 172.20.1.1
       # This deals with the default vagrant interface, we force to use the address 192.168 instead 
       # of the 10.0 and we force the MAC address. Otherwise all vms has the same internal address
       v.customize ['modifyvm', :id, '--natnet1', '192.168.111.0/24']
@@ -34,16 +37,31 @@ Vagrant.configure("2") do |config|
   # --------------
   # Lighthouse 1
   # --------------
-  config.vm.define "lighthouse" do |lighthouse1|
+  config.vm.define "lighthouse1" do |lighthouse1|
     lighthouse1.vm.box = "base-punch-nat"
-    # Interface 
-    #lighthouse1.vm.network "private_network", ip: "172.20.1.100", netmask: "255.255.0.0", virtualbox__intnet: true
-    
     lighthouse1.vm.hostname = "lighthouse1"
-
-    # Setup nebula
-    lighthouse1.vm.provision :shell, path: "provision/lighthouse1.sh"    
-    
+    # Interface 
+    lighthouse1.vm.network "private_network", ip: "172.20.1.100", netmask: "255.255.0.0", virtualbox__intnet: true
+    lighthouse1.vm.provider "virtualbox" do |v|
+      v.customize ['modifyvm', :id, '--intnet2', 'fake-internet']  # OK eth1 172.20.1.100
+      # This deals with the default vagrant interface, we force to use the address 192.168 instead 
+      # of the 10.0 and we force the MAC address. Otherwise all vms has the same internal address
+      v.customize ['modifyvm', :id, '--natnet1', '192.168.117.0/24']
+      v.customize ['modifyvm', :id, '--macaddress1', "5CA1AB1E0047"]
+      v.linked_clone = true
+      v.name = "lighthouse1"
+    end
+     # Configuring Network Gateway for Lighthouse1
+    lighthouse1.vm.provision :shell, run: "always", inline: <<-SHELL
+        echo 'Configuring Network Gateway' && \
+        route del default gw 192.168.117.2 eth0 2>/dev/null || true && \
+        route add default gw 172.20.1.1 eth1 2>/dev/null || true && \
+        echo 'Network Gateway Configured'
+    SHELL
+    # Setup Nebula
+    lighthouse1.vm.provision :shell, path: "provision/lighthouse1.sh"
+    # Run Nebula
+    lighthouse1.vm.provision :shell, run: "always", inline: "nohup /vagrant/files/nebula -config /vagrant/config/lighthouse1/config.yml &> /vagrant/logs/lighthouse1.out&", privileged: true
     lighthouse1.vm.post_up_message = "(Lighthouse) 'lighthouse1' that emulates the connection to the nebula lighthouse -- IS UP AND READY !!!"
   end  
 
@@ -105,33 +123,37 @@ Vagrant.configure("2") do |config|
     SHELL
     # Install some dependencies
     node_a1.vm.provision :shell, path: "provision/node_a1.sh"
+    # Run Nebula
+    node_a1.vm.provision :shell, run: "always", inline: "nohup /vagrant/files/nebula -config /vagrant/config/node-a1/config.yml &> /vagrant/logs/node_a1.out&", privileged: true
     node_a1.vm.post_up_message = "(Node) 'A1' that emulates an end point in site A -- IS UP AND READY !!!"
   end
   # ----------------
   # Node A2
   # ----------------
-  config.vm.define "node_a1" do |node_a2|
+  config.vm.define "node_a2" do |node_a2|
     node_a2.vm.box = "base-punch-nat"
     node_a2.vm.hostname = "node-a2"
-    node_a2.vm.network "private_network", ip: "10.40.40.5", netmask: "255.255.255.0", virtualbox__intnet: true
+    node_a2.vm.network "private_network", ip: "10.40.40.6", netmask: "255.255.255.0", virtualbox__intnet: true
     node_a2.vm.provider "virtualbox" do |v|
       v.customize ['modifyvm', :id, '--intnet2', 'site-a']  # OK eth1 10.40.40.5
       # This deals with the default vagrant interface, we force to use the address 192.168 instead 
       # of the 10.0 and we force the MAC address. Otherwise all vms has the same internal address
-      v.customize ['modifyvm', :id, '--natnet1', '192.168.113.0/24']
-      v.customize ['modifyvm', :id, '--macaddress1', "5CA1AB1E0043"]
+      v.customize ['modifyvm', :id, '--natnet1', '192.168.116.0/24']
+      v.customize ['modifyvm', :id, '--macaddress1', "5CA1AB1E0046"]
       v.linked_clone = true
       v.name = "node-a2"
     end
-    # Configuring Network Gateway for Node A1 in Site A
-    node_a1.vm.provision :shell, run: "always", inline: <<-SHELL
+    # Configuring Network Gateway for Node A2 in Site A
+    node_a2.vm.provision :shell, run: "always", inline: <<-SHELL
         echo 'Configuring Network Gateway' && \
-        route del default gw 192.168.113.2 eth0 2>/dev/null || true && \
+        route del default gw 192.168.116.2 eth0 2>/dev/null || true && \
         route add default gw 10.40.40.40 eth1 2>/dev/null || true && \
         echo 'Network Gateway Configured' 
     SHELL
     # Install some dependencies
     node_a2.vm.provision :shell, path: "provision/node_a2.sh"
+    # Run Nebula
+    node_a2.vm.provision :shell, run: "always", inline: "nohup /vagrant/files/nebula -config /vagrant/config/node-a2/config.yml &> /vagrant/logs/node_a2.out&", privileged: true
     node_a2.vm.post_up_message = "(Node) 'A2' that emulates an end point in site A -- IS UP AND READY !!!"
   end  
   # =====================================
@@ -192,7 +214,38 @@ Vagrant.configure("2") do |config|
     SHELL
     # Install some dependencies
     node_b1.vm.provision :shell, path: "provision/node_b1.sh" #, privileged: false
+    # Run Nebula
+    node_b1.vm.provision :shell, run: "always", inline: "nohup /vagrant/files/nebula -config /vagrant/config/node-b1/config.yml &> /vagrant/logs/node_b1.out&", privileged: true
     node_b1.vm.post_up_message = "(Node) 'B1' that emulates an end point in site B -- IS UP AND READY !!!"
-  end  
+  end
+  # ----------------
+  # Node B2
+  # ----------------
+  config.vm.define "node_b2" do |node_b2|
+    node_b2.vm.box = "base-punch-nat"
+    node_b2.vm.hostname = "node-b2"
+    node_b2.vm.network "private_network", ip: "10.40.40.8", netmask: "255.255.255.0", virtualbox__intnet: true
+    node_b2.vm.provider "virtualbox" do |v|
+      v.customize ['modifyvm', :id, '--intnet2', 'site-b']  #  eth1 10.40.40.8
+      # This deals with the default vagrant interface, we force to use the address 192.168 instead 
+      # of the 10.0 and we force the MAC address. Otherwise all vms has the same internal address
+      v.customize ['modifyvm', :id, '--natnet1', '192.168.118.0/24']
+      v.customize ['modifyvm', :id, '--macaddress1', "5CA1AB1E0048"]
+      v.linked_clone = true
+      v.name = "node-b2"
+    end
+    # Configuring Network Gateway for Node B2 in Site B
+    node_b2.vm.provision :shell, run: "always", inline: <<-SHELL
+        echo 'Configuring Network Gateway' && \
+        route del default gw 192.168.118.2 eth0 2>/dev/null || true && \
+        route add default gw 10.40.40.40 eth1 2>/dev/null || true && \
+        echo 'Network Gateway Configured'
+    SHELL
+    # Install some dependencies
+    node_b2.vm.provision :shell, path: "provision/node_b2.sh" #, privileged: false
+    # Run Nebula
+    node_b2.vm.provision :shell, run: "always", inline: "nohup /vagrant/files/nebula -config /vagrant/config/node-b2/config.yml &> /vagrant/logs/node_b2.out&", privileged: true
+    node_b2.vm.post_up_message = "(Node) 'B2' that emulates an end point in site B -- IS UP AND READY !!!"
+  end
 
 end

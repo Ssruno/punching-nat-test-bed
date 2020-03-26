@@ -16,7 +16,13 @@ sudo echo iptables-persistent iptables-persistent/autosave_v6 boolean true | deb
 sudo apt-get install -y iptables-persistent
 
 # Install libs
-sudo apt-get install -y net-tools locate vim nano tcpdump dnsutils traceroute curl git-core bzip2
+sudo apt-get install -y net-tools locate vim nano tcpdump dnsutils traceroute curl git-core bzip2 wget
+
+# If binaries (package) of nebula is not present, download it
+if [ -n "$(ls -A /vagrant/nebula-linux-amd64.tar.gz 2>/dev/null)" ]
+then
+  wget -P /vagrant https://github.com/slackhq/nebula/releases/download/v1.1.0/nebula-linux-amd64.tar.gz
+fi
 
 # Create the directory for mounting the VirtualBox Guest Additions
 # sudo mkdir /tmp/mount

@@ -2,9 +2,9 @@
 ![Net Diagram](../docs/test_bed_v0.3-alpha.png  "Net Diagram")
 #### Description
 This is a simple network topology created with Vagrant and VirtualBox, there is a simple nat applied with iptables on the gateways and the router (the NAT in the router is debatable).
-The nat applied is:
+The nat applied (on gw_a, gw_b) is:
 
-	iptables -t nat -A POSTROUTING -o ethX -j MASQUERADE
+	iptables -t nat -A POSTROUTING -o ethX -j SNAT --to-source 172.1X.1X.1X
 	
 For exaxmaple, if you access **node-a1** (vagrant ssh node_a1) and you use ping/tracepath/traceroute to 172.19.19.19 you can see how you can reach that side of the network. However, node-b1 (10.40.40.7) is out of scope (as expected).
 #### List of Virtual Machines
@@ -16,7 +16,7 @@ For exaxmaple, if you access **node-a1** (vagrant ssh node_a1) and you use ping/
 #### Tested with
 - GNU/Linux 4.14.171-1-MANJARO
 - Vagrant (v 2.2.7)
-	- box: "envimation/ubuntu-xenial"
+	- box: "base_punch", [see the docs](../boxes/README.md "see the docs").
 - Virtualbox (v 6.1.4-2)
 	- Networking mode of interfaces: "Internal networking" (intnet), [Check Chapter 6 of VirtualBox manual](https://www.virtualbox.org/manual/ch06.html#network_internal) 
 #### Name of hosts/VMs
@@ -74,11 +74,7 @@ For exaxmaple, if you access **node-a1** (vagrant ssh node_a1) and you use ping/
 >		10.40.40.0      *               255.255.255.0   U     0      0        0 eth1
 >		192.168.115.0   *               255.255.255.0   U     0      0        0 eth0
 #### Run the test bed
-	# Generate the base image
-	cd boxes/base
-	make base_vm
-	# Run the test bed
-	cd ../..
+
 	vagrant up
 	
 To access the VMs, run:

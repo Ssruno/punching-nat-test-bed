@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# If binaries (package) of nebula is not present, download it
+if [ ! -f "/vagrant/nebula-linux-amd64.tar.gz" ]
+then
+  wget -P /vagrant https://github.com/slackhq/nebula/releases/download/v1.1.0/nebula-linux-amd64.tar.gz
+fi
+
 # Delete certificates, binaries, etc from previous Nebula deployment
 if [ -n "$(ls -A /vagrant/files/ 2>/dev/null)" ]
 then

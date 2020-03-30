@@ -6,8 +6,8 @@ base_vm:
 	vagrant vbguest base_punch --do install --auto-reboot && \
 	vagrant reload && \
 	vagrant vbguest base_punch  --status && \
-	vagrant package --output ../envimation-ubuntu-xenial-punch-nat.box && \
-	vagrant box add base-punch-nat ../envimation-ubuntu-xenial-punch-nat.box && \
-	rm -rf ../envimation-ubuntu-xenial-punch-nat.box && \
+	vagrant package --output ../bento-ubuntu-16-04-punch-nat.box && \
+	vagrant box add base-punch-nat ../bento-ubuntu-16-04-punch-nat.box && \
+	rm -rf ../bento-ubuntu-16-04-punch-nat.box && \
 	vagrant destroy -f base_punch && \
 	rm -rf .vagrant/

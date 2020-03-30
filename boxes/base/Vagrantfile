@@ -6,15 +6,16 @@ unless Vagrant.has_plugin?("vagrant-vbguest")
   system('vagrant plugin install vagrant-vbguest')
 end
 
-# unless Vagrant.has_plugin?("vagrant-reload")
-#   puts 'Installing vagrant-reload Plugin...'
-#   system('vagrant plugin install vagrant-reload')
-# end
+unless Vagrant.has_plugin?("vagrant-reload")
+  puts 'Installing vagrant-reload Plugin...'
+  system('vagrant plugin install vagrant-reload')
+end
 
 Vagrant.configure("2") do |config|
 
   config.vm.define "base_punch" do |base|
-    base.vm.box = "envimation/ubuntu-xenial"
+    #base.vm.box = "envimation/ubuntu-xenial"
+    base.vm.box = "bento/ubuntu-16.04"    
 
     # Set the needed config for installing VirtualBox Guest Additions later in the make file    
     base.vbguest.auto_update = false
@@ -26,8 +27,12 @@ Vagrant.configure("2") do |config|
       # First we create the /tmp/mount directory with root owner and 777 permission
       v.customize "post-comm", ['guestcontrol', :id, 'run', '--exe', '/usr/bin/sudo', '--username', 'vagrant', '--password', 'vagrant', '--wait-stdout', '--wait-stderr', '--', 'sudo/arg0', '/bin/mkdir', '--mode', '777', '/tmp/mount']    
     end
+    
+    # Full upgrade of the system
+    base.vm.provision :shell, run: "always", inline: "apt-get -y update && apt-get -y upgrade", privileged: true
+    # Reload of the VM
+    base.vm.provision :reload
     # Install some dependencies
-    base.vm.provision :shell, path: "provision.sh"
-    # base.vm.provision :reload    
+    base.vm.provision :shell, path: "provision.sh"    
   end
 end

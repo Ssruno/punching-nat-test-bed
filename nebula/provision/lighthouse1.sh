@@ -15,5 +15,6 @@ cd /vagrant/files/
 /vagrant/files/nebula-cert sign -name "node-a2"     -ip "192.200.1.6/24" 
 /vagrant/files/nebula-cert sign -name "node-b1"     -ip "192.200.1.7/24"
 /vagrant/files/nebula-cert sign -name "node-b2"     -ip "192.200.1.8/24"
+/vagrant/files/nebula-cert sign -name "node-f1"     -ip "192.200.1.9/24"
 
 #sudo /vagrant/files/nebula -config /vagrant/config/lighthouse1/config.yml &

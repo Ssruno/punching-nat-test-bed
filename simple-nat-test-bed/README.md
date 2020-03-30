@@ -38,7 +38,7 @@ For exaxmaple, if you access **node-a1** (vagrant ssh node_a1) and you use ping/
 	- **eth1:** 10.40.40.40/24
 	- **eth2:** 172.18.18.18/16 Default Gateway
 	- NAT:
-		- iptables --table nat --append POSTROUTING --out-interface eth2 -j MASQUERADE
+		- iptables --table nat --append POSTROUTING --out-interface eth2 -j SNAT --to-source 172.18.18.18
 	- Kernel IP routing table
 >		Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 >		default         172.18.1.1      0.0.0.0         UG    0      0        0 eth2
@@ -58,7 +58,7 @@ For exaxmaple, if you access **node-a1** (vagrant ssh node_a1) and you use ping/
 	- **eth1:** 10.40.40.40/24
 	- **eth2:** 172.19.19.19/16 Default Gateway
 	- NAT:
-		- iptables --table nat --append POSTROUTING --out-interface eth2 -j MASQUERADE
+		- iptables --table nat --append POSTROUTING --out-interface eth2 -j SNAT --to-source 172.19.19.19
 	- Kernel IP routing table
 >		Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 >		default         172.19.1.1      0.0.0.0         UG    0      0        0 eth2

@@ -13,7 +13,7 @@ sudo iptables --delete-chain
 sudo iptables --table nat --delete-chain
 
 # The NAT
-sudo iptables --table nat --append POSTROUTING --out-interface eth2 -j MASQUERADE
+sudo iptables --table nat --append POSTROUTING --out-interface eth2 -j SNAT --to-source 172.19.19.19
 
 ## Save the rules
 sudo iptables-save > /etc/iptables/rules.v4

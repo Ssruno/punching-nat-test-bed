@@ -12,7 +12,7 @@ sudo iptables --table nat --flush
 sudo iptables --delete-chain
 sudo iptables --table nat --delete-chain
 
-sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+sudo iptables -t nat -A POSTROUTING -o eth0 -j SNAT --to-source 192.168.111.15
 
 ## Save the rules
 sudo iptables-save > /etc/iptables/rules.v4

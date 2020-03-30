@@ -1,4 +1,4 @@
-# Network with a simple NAT
+## Network with a simple NAT
 ![Net Diagram](../docs/test_bed_v0.3-alpha.png  "Net Diagram")
 #### Description
 This is a simple network topology created with Vagrant and VirtualBox, there is a simple nat applied with iptables on the gateways and the router (the NAT in the router is debatable).
@@ -73,6 +73,7 @@ For exaxmaple, if you access **node-a1** (vagrant ssh node_a1) and you use ping/
 >		default         10.40.40.40     0.0.0.0         UG    0      0        0 eth1
 >		10.40.40.0      *               255.255.255.0   U     0      0        0 eth1
 >		192.168.115.0   *               255.255.255.0   U     0      0        0 eth0
+
 #### Run the test bed
 
 	vagrant up

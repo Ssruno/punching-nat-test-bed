@@ -1,14 +1,11 @@
 #!/usr/bin/env bash
 
-# Full upgrade of the system
-sudo apt-get update && apt-get upgrade
-
 # Enable ipv4 forwarding
 sudo echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
 sudo sysctl -p /etc/sysctl.conf
 
 # Install tools for networking
-sudo apt-get -y install dialog debconf-utils apt-utils iputils-ping iptables iputils-tracepath traceroute
+sudo apt-get -y install dialog debconf-utils apt-utils iputils-ping iptables iputils-tracepath traceroute netcat conntrack nmap wget
 
 # Install iptables-persistent
 sudo echo iptables-persistent iptables-persistent/autosave_v4 boolean true | debconf-set-selections

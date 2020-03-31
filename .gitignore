@@ -1,3 +1,6 @@
 .vagrant/
 *.box
+nebula/files/
+*.tar.gz
 *.log
+*.out

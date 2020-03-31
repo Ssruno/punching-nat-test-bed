@@ -1,63 +1,23 @@
-# Test bed for hole punching NATs
-![Net Diagram](docs/test_bed_v0.3-alpha.png  "Net Diagram")
-#### Tested with
-- GNU/Linux 4.14.171-1-MANJARO
-- Vagrant (v 2.2.7)
-	- box: "envimation/ubuntu-xenial"
-- Virtualbox (v 6.1.4-2)
-	- Networking mode of interfaces: "Internal networking" (intnet)
-#### Name of hosts/VMs
+## Evaluation of Network-Layer Security Technologies for Cloud Platforms
 
-- router
-	- **eth1:** 172.18.1.1/16
-	- **eth2:** 172.19.1.1/16
-	- NAT:
-		- iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-- gw_a
-	- **eth1:** 10.40.40.40/24
-	- **eth2:** 172.18.18.18/16
-	- NAT:
-		- iptables --table nat --append POSTROUTING --out-interface eth2 -j MASQUERADE
-		- iptables --table nat --append POSTROUTING --out-interface eth0 -j MASQUERADE
-- node_a1
-	- **eth1:** 10.40.40.5/24
-- gw_b
-	- **eth1:** 10.40.40.40/24
-	- **eth2:** 172.19.19.19/16
-	- NAT:
-		- iptables --table nat --append POSTROUTING --out-interface eth2 -j MASQUERADE
-		- iptables --table nat --append POSTROUTING --out-interface eth0 -j MASQUERADE	
-- node_b1
-	- **eth1:** 10.40.40.7/24
-#### Run the test bed
-	# Generate the base image
-	cd boxes/base
-	make base_vm
-	# Run the test bed
-	cd ../..
-	vagrant up
-	
-To access the VMs, run:
+#### Experiments
+- [Simple network topology to try a NAT with iptables](simple-nat-test-bed/README.md "Simple network topology to try a NAT with iptables")
+- [Slack Nebula with one (1) Lighthouse](nebula-with-one-lighthouse/README.md "Slack Nebula with one (1) Lighthouse")
+- Slack Nebula with two (2) Lighthouses
 
-	vagrant ssh <node_a1|gw_a|router|gw_b|node_b1>
+#### Requeriments
+- Some GNU/Linux
+    - Tested with 4.14.171-1-MANJARO
+- VirtualBox
+    - Tested with Virtualbox (v 6.1.4-2)
+- Vagrant
+    - Tested with Vagrant (v 2.2.7)
+    - You can 'install' directly the [self-contained binary](https://releases.hashicorp.com/vagrant/2.2.7/vagrant_2.2.7_linux_amd64.zip) and avoid the struggle of dependency with Ruby
+    - By 'install' I mean, just adding the binary to your $PATH enviroment variable, i.e. in .bashrc
 
-#### DEBUG: 
-- vagrant up --debug &> vagrant.log
-- VBoxManage list --long intnets
-- VBoxManage list --long runningvms
-- VBoxManage list runningvms
-- VBoxManage showvminfo <uuid|vmname> --machinereadable
-- VBoxManage showvminfo <uuid|vmname> --details
-- VBoxManage natnetwork list [<pattern>]
-- vagrant vbguest base_punch  --status
+>        # We add vagrant binary 2.2.7
+>        export PATH="$HOME/path/to/recently/downloaded/vagrant/bin:$PATH"
 
-#### TODO: 
-
-- [ ] Add Google DNS to hosts
-- [x] Check linked clones for Vagrant
-- [x] For the default NAT interface of Vagrant, configure manually a different MAC and Space address
-- [ ] Do we need promiscuous mode?
-- [ ] Check if we need --natdnsproxy1 and --natdnsproxy1
-- [ ] Try to loop the creationg process
-- [x] Check vagrant-vbguest plugin for downloading the right VirtualBox Guest Additions
-- [ ] Add references to documentation
+#### Others
+- Aalto University
+- KTH Royal Institute of Technology

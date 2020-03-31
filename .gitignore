@@ -1,6 +1,9 @@
 .vagrant/
 *.box
-nebula-with-one-lighthouse/files/
+*.key
+*.crt
+nebula
+nebula-cert
 *.tar.gz
 *.log
 *.out

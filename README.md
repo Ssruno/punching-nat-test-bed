@@ -2,7 +2,7 @@
 
 #### Experiments
 - [Simple network topology to try a NAT with iptables](simple-nat-test-bed/README.md "Simple network topology to try a NAT with iptables")
-- [Slack Nebula with one (1) Lighthouse](nebula/README.md "Slack Nebula with one (1) Lighthouse")
+- [Slack Nebula with one (1) Lighthouse](nebula-with-one-lighthouse/README.md "Slack Nebula with one (1) Lighthouse")
 - Slack Nebula with two (2) Lighthouses
 
 #### Requeriments

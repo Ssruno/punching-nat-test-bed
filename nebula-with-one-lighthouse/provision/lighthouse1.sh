@@ -9,7 +9,10 @@ fi
 # Delete certificates, binaries, etc from previous Nebula deployment
 if [ -n "$(ls -A /vagrant/files/ 2>/dev/null)" ]
 then
-  rm -rf /vagrant/files/*
+  rm -rf /vagrant/files/*.key
+  rm -rf /vagrant/files/*.crt
+  rm -rf /vagrant/files/nebula
+  rm -rf /vagrant/files/nebula-cert
 fi
 
 tar -xvf /vagrant/nebula-linux-amd64.tar.gz -C /vagrant/files

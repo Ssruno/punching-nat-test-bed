@@ -1,4 +1,4 @@
-## Network with one (1) Nebula lighthouse and only 2 nodes from each side
+## Network with one (1) Nebula lighthouse and only one node from each side
 ![Net Diagram](../docs/test_bed_v0.6-alpha.png  "Net Diagram")
 
 ### Description
@@ -31,7 +31,7 @@ If you want to make changes on the Nebula setup (YAML files) without rebooting t
 	- box: "base_punch", [see the docs](../boxes/README.md "see the docs").
 - Virtualbox (v 6.1.4-2)
 	- Networking mode of interfaces: "Internal networking" (intnet)
-- Nebula v 1.1.0
+- Nebula v 1.2.0
 
 #### DEBUG: 
 - On "router"

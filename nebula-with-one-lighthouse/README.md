@@ -33,7 +33,7 @@ If you want to make changes on the Nebula setup (YAML files) without rebooting t
 	- box: "base_punch", [see the docs](../boxes/README.md "see the docs").
 - Virtualbox (v 6.1.4-2)
 	- Networking mode of interfaces: "Internal networking" (intnet)
-- Nebula v 1.1.0
+- Nebula v 1.2.0
 
 #### DEBUG: 
 - On "router"

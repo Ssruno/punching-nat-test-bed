@@ -34,6 +34,9 @@ If you want to make changes on the Nebula setup (YAML files) without rebooting t
 - Nebula v 1.2.0
 
 #### DEBUG: 
+- On the "logs" folder/directory of this project you can find the (realtime) output of nebula with "debug" level of verbosity
+- Check the NAT on the gateways A or B with
+	- sudo conntrack -E --src-nat
 - On "router"
 	- sudo tcpdump -i eth1 udp -vv -X
 	- sudo tcpdump -i any -e -s 0 'net 172.0.0.0/8 and (udp or icmp) and not net 172.20.0.0/16 and not net 192.168.0.0/16'	

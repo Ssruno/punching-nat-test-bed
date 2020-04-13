@@ -26,7 +26,7 @@ We use vagrant with virtualbox to create virtual machines and emulate a network
 
 - First, we need to generate the base 'box' from vagrant, that would be used as a template for all the other virtual machines. [Instructions here](boxes/README.md "Instructions here").
 - You don't need much Disk space, because we use the parameter 'linked_clone'. There would be only one virtual machine used as a template with the actual 'size' of ~2,3 GB), all the other VMs would have only ~5,5 MB.
-- Tested with 16 GB of RAM and uses ~12 GB if we use the box 'bento/ubuntu-16.04' for 9 nodes, of course this can be tweaked.
+- Tested with 16 GB of RAM and currently uses 512 MB of RAM per each node with the box 'bento/ubuntu-16.04'.
 
 #### Others
 - Aalto University

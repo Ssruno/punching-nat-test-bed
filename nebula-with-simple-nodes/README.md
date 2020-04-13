@@ -40,9 +40,6 @@ If you want to make changes on the Nebula setup (YAML files) without rebooting t
 - On "gw_a"
 	- sudo iptables -I OUTPUT -p icmp --icmp-type destination-unreachable -j DROP
 	- sudo conntrack -L --src-nat
-- On "node_b1"
-	- echo -n "TEST" | nc -u 172.18.1.9 4242 -q 0
-	- echo -n "TEST" | nc -u 172.18.1.9 4242 -q 0 -p 4243; echo -n "TEST2" | nc -u 172.18.1.7 4242 -q 0 -p 4243; echo -n "TEST3" | nc -u 172.18.1.8 4242 -q 0 -p 4243;
 - On "node_a1"
 	- echo -n "TESTING" | nc -u 172.20.1.100 4242
 

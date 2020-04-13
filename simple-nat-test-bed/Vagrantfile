@@ -21,6 +21,10 @@ Vagrant.configure("2") do |config|
       # of the 10.0 and we force the MAC address. Otherwise all vms has the same internal address
       v.customize ['modifyvm', :id, '--natnet1', '192.168.111.0/24']
       v.customize ['modifyvm', :id, '--macaddress1', "5CA1AB1E0041"]
+      # Performance
+      v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+      v.memory = 512
+      v.cpus = 1      
       v.linked_clone = true
       v.name = "router"
     end
@@ -46,6 +50,10 @@ Vagrant.configure("2") do |config|
       # of the 10.0 and we force the MAC address. Otherwise all vms has the same internal address      
       v.customize ['modifyvm', :id, '--natnet1', '192.168.112.0/24']
       v.customize ['modifyvm', :id, '--macaddress1', "5CA1AB1E0042"]
+      # Performance
+      v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+      v.memory = 512
+      v.cpus = 1      
       v.linked_clone = true
       v.name = "gw-a"
     end
@@ -73,6 +81,10 @@ Vagrant.configure("2") do |config|
       # of the 10.0 and we force the MAC address. Otherwise all vms has the same internal address
       v.customize ['modifyvm', :id, '--natnet1', '192.168.113.0/24']
       v.customize ['modifyvm', :id, '--macaddress1', "5CA1AB1E0043"]
+      # Performance
+      v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+      v.memory = 512
+      v.cpus = 1      
       v.linked_clone = true
       v.name = "node-a1"
     end
@@ -105,6 +117,10 @@ Vagrant.configure("2") do |config|
       # of the 10.0 and we force the MAC address. Otherwise all vms has the same internal address
       v.customize ['modifyvm', :id, '--natnet1', '192.168.114.0/24']
       v.customize ['modifyvm', :id, '--macaddress1', "5CA1AB1E0044"]
+      # Performance
+      v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+      v.memory = 512
+      v.cpus = 1      
       v.linked_clone = true
       v.name = "gw-b"
     end
@@ -132,6 +148,10 @@ Vagrant.configure("2") do |config|
       # of the 10.0 and we force the MAC address. Otherwise all vms has the same internal address
       v.customize ['modifyvm', :id, '--natnet1', '192.168.115.0/24']
       v.customize ['modifyvm', :id, '--macaddress1', "5CA1AB1E0045"]
+      # Performance
+      v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+      v.memory = 512
+      v.cpus = 1      
       v.linked_clone = true
       v.name = "node-b1"
     end

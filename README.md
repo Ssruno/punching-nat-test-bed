@@ -4,9 +4,11 @@
 
 We use vagrant with virtualbox to create virtual machines and emulate a network
 
-#### Experiments
-- [Simple network topology to try a NAT with iptables](simple-nat-test-bed/README.md "Simple network topology to try a NAT with iptables")
+#### Current Experiment
 - [Slack Nebula with one (1) Lighthouse and simple nodes](nebula-with-simple-nodes/README.md "Slack Nebula with one (1) Lighthouse and simple nodes")
+
+#### Previous Experiments
+- [Simple network topology to try a NAT with iptables](simple-nat-test-bed/README.md "Simple network topology to try a NAT with iptables")
 - [Slack Nebula with one (1) Lighthouse and many nodes](nebula-with-one-lighthouse/README.md "Slack Nebula with one (1) Lighthouse and many nodes")
 - Slack Nebula with two (2) Lighthouses
 

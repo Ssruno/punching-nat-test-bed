@@ -13,19 +13,30 @@ PING 192.200.1.7 (192.200.1.7) 56(84) bytes of data.
 --- 192.200.1.7 ping statistics ---
 10 packets transmitted, 0 received, 100% packet loss, time 9027ms
 ```
-Here the `conntrack -L --src-nat` of both gateways (Omit the IPs 192.168.115.15 and 192.168.113.15, they correspond to vagrant):
+Here the `conntrack -L --src-nat` of both gateways (check the dport=1024 in gw-b):
 ```
-vagrant@gw-a:~$ sudo conntrack -L --src-nat
-udp      17 28 src=10.40.40.5 dst=192.168.115.15 sport=5555 dport=7777 [UNREPLIED] src=192.168.115.15 dst=172.18.18.18 sport=7777 dport=5555 mark=0 use=1
-udp      17 26 src=10.40.40.5 dst=172.19.19.19 sport=5555 dport=7777 [UNREPLIED] src=172.19.19.19 dst=172.18.18.18 sport=7777 dport=5555 mark=0 use=1
-udp      17 167 src=10.40.40.5 dst=172.20.1.100 sport=5555 dport=4242 src=172.20.1.100 dst=172.18.18.18 sport=4242 dport=5555 [ASSURED] mark=0 use=1
-conntrack v1.4.3 (conntrack-tools): 3 flow entries have been shown.
+vagrant@gw-a:~$ sudo conntrack -L -j
+udp      17 27 src=10.40.40.5 dst=172.19.19.19 sport=5555 dport=7777 [UNREPLIED] src=172.19.19.19 dst=172.18.18.18 sport=7777 dport=5555 mark=0 use=1
+udp      17 176 src=10.40.40.5 dst=172.20.1.100 sport=5555 dport=4242 src=172.20.1.100 dst=172.18.18.18 sport=4242 dport=5555 [ASSURED] mark=0 use=1
+conntrack v1.4.3 (conntrack-tools): 2 flow entries have been shown.
 
-vagrant@gw-b:~$ sudo conntrack -L --src-nat
-udp      17 19 src=10.40.40.7 dst=192.168.113.15 sport=7777 dport=5555 [UNREPLIED] src=192.168.113.15 dst=172.19.19.19 sport=5555 dport=1024 mark=0 use=1
+vagrant@gw-b:~$ sudo conntrack -L -j
+udp      17 29 src=10.40.40.7 dst=172.18.18.18 sport=7777 dport=5555 [UNREPLIED] src=172.18.18.18 dst=172.19.19.19 sport=5555 dport=1024 mark=0 use=1
 udp      17 175 src=10.40.40.7 dst=172.20.1.100 sport=7777 dport=4242 src=172.20.1.100 dst=172.19.19.19 sport=4242 dport=7777 [ASSURED] mark=0 use=1
-udp      17 19 src=10.40.40.7 dst=172.18.18.18 sport=7777 dport=5555 [UNREPLIED] src=172.18.18.18 dst=172.19.19.19 sport=5555 dport=1024 mark=0 use=1
-conntrack v1.4.3 (conntrack-tools): 3 flow entries have been shown.
+conntrack v1.4.3 (conntrack-tools): 2 flow entries have been shown.
+```
+
+However, If we change the [config file](config/node-b1/config.yml "config file") of the "node-b1" and we set `delay: 0s` under the punchy directive, we obtain the same clash of tuple in conntrack but this time on the Gateway A.
+```
+vagrant@gw-a:~$ sudo conntrack -L -j
+udp      17 29 src=10.40.40.5 dst=172.19.19.19 sport=5555 dport=7777 [UNREPLIED] src=172.19.19.19 dst=172.18.18.18 sport=7777 dport=1024 mark=0 use=1
+udp      17 177 src=10.40.40.5 dst=172.20.1.100 sport=5555 dport=4242 src=172.20.1.100 dst=172.18.18.18 sport=4242 dport=5555 [ASSURED] mark=0 use=1
+conntrack v1.4.3 (conntrack-tools): 2 flow entries have been shown.
+
+vagrant@gw-b:~$ sudo conntrack -L -j
+udp      17 27 src=10.40.40.7 dst=172.18.18.18 sport=7777 dport=5555 [UNREPLIED] src=172.18.18.18 dst=172.19.19.19 sport=5555 dport=7777 mark=0 use=1
+udp      17 176 src=10.40.40.7 dst=172.20.1.100 sport=7777 dport=4242 src=172.20.1.100 dst=172.19.19.19 sport=4242 dport=7777 [ASSURED] mark=0 use=1
+conntrack v1.4.3 (conntrack-tools): 2 flow entries have been shown.
 ```
 
 #### Run the test bed

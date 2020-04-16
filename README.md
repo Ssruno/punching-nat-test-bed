@@ -31,6 +31,15 @@ We use vagrant with virtualbox to create virtual machines and emulate a network
 - You don't need much Disk space, because we use the parameter 'linked_clone'. There would be only one virtual machine used as a template with the actual 'size' of ~2,3 GB), all the other VMs would have only ~5,5 MB.
 - Tested with 16 GB of RAM and currently uses 512 MB of RAM per each node with the box 'bento/ubuntu-16.04'.
 
+#### Netfilter on Linux
+
+To check the source code of the Kernel from the Bento box (Ubuntu Xenial)
+```
+$ uname -r
+$ cat /etc/lsb-release 
+$ git clone -b Ubuntu-4.4.0-173.203 --depth 1 git://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/xenial
+```
+
 #### Others
 - Aalto University
 - KTH Royal Institute of Technology

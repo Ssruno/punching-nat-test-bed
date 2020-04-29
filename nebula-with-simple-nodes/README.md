@@ -3,7 +3,7 @@
 
 ### Description
 
-There is one lighthouse (lighthouse1) that is connected to the router. Gateway A and B have a SNAT configured. After many trials, we added a delay to the router with the *tc* command (more details in the section below). Before the delay **"node-a1" that belongs to the Site A could not reach "node-b1" that belong to Site B and vice versa.** In any case the nodes can reach the given Lighthouse without problems. After applying the delay, finally "node-a1" and "node-b1" can communicate; the purpose of the delay is to emulate the real delay on the Internet.
+There is one lighthouse (lighthouse1) that is connected to the router. Gateway A and B have a SNAT configured. After many trials, we added a delay to the router with the *tc* command (more details in the section below). Before the delay, **"node-a1" that belongs to the "Site A" could not reach "node-b1" that belongs to "Site B" and vice versa**. In any case, the nodes can reach the given Lighthouse without problems. After applying the delay, finally "node-a1" and "node-b1" can communicate; the purpose of the delay is to emulate the real delay on the Internet.
 
 #### Before applied delay
 
@@ -85,7 +85,7 @@ conntrack v1.4.3 (conntrack-tools): 2 flow entries have been show
 
 #### Timing issue
 
-If we set the `delay: 1s` under the punchy directive, or `delay: 0s` sometimes works, and sometimes does not. The only way to make the connection established as **ASSURED** is done when you ping A->B and A<-B at the "same time". Is not possible to do it exactly at the same time, but when is done quick enough we can fool the NAT and the clash of ports is avoided and a single stream of data is achieved.
+If we set the `delay: 1s` under the punchy directive, or `delay: 0s` sometimes works, and sometimes does not. The only way to make the connection established as **ASSURED** is when you ping A->B and A<-B at the “same time”. It is not possible to do it simultaneously but when it is quick enough, we can fool the NAT and avoid the clash of ports, therefore it achieve a single stream of data.
 
 #### Run the test bed
 

@@ -32,7 +32,7 @@ Vagrant.configure("2") do |config|
       v.name = "router"
     end        
     # Install some dependencies, and define the NAT
-    router.vm.provision :shell, path: "provision/router.sh"
+    router.vm.provision :shell, run: "always", path: "provision/router.sh"
     router.vm.post_up_message = "(Fake) 'ROUTER' that emulates the connection to the internet -- IS UP AND READY !!!"
   end
 
@@ -113,7 +113,7 @@ Vagrant.configure("2") do |config|
         echo 'Network Gateway Configured' 
     SHELL
     # Install some dependencies, and define the NAT
-    gw_a.vm.provision :shell, path: "provision/gw_a.sh"
+    gw_a.vm.provision :shell, run: "always", path: "provision/gw_a.sh"
     gw_a.vm.post_up_message = "(Gateway) 'SITE A' that emulates the geographic site A -- IS UP AND READY !!!"
   end
   # ----------------
@@ -188,7 +188,7 @@ Vagrant.configure("2") do |config|
         echo 'Network Gateway Configured' 
     SHELL
     # Install some dependencies, and define the NAT
-    gw_b.vm.provision :shell, path: "provision/gw_b.sh" #, privileged: false
+    gw_b.vm.provision :shell, run: "always", path: "provision/gw_b.sh" #, privileged: false
     gw_b.vm.post_up_message = "(Gateway) 'SITE B' that emulates the geographic site B -- IS UP AND READY !!!"    
   end
   # ----------------

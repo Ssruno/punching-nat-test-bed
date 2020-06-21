@@ -72,6 +72,8 @@ Vagrant.configure("2") do |config|
     SHELL
     # Setup Nebula
     lighthouse1.vm.provision :shell, path: "provision/lighthouse1.sh"
+    # Setup key-pair
+    lighthouse1.vm.provision :shell, privileged: false, inline: "cp /vagrant/files/lighthouse1_keypair/* /home/vagrant/.ssh/"
     # Run Nebula
     lighthouse1.vm.provision :shell, run: "always", inline: "nohup /vagrant/files/nebula -config /vagrant/config/lighthouse1/config.yml &> /vagrant/logs/lighthouse1.out&", privileged: true
     lighthouse1.vm.post_up_message = "(Lighthouse) 'lighthouse1' that emulates the connection to the nebula lighthouse -- IS UP AND READY !!!"
@@ -147,6 +149,8 @@ Vagrant.configure("2") do |config|
     SHELL
     # Install some dependencies
     node_a1.vm.provision :shell, path: "provision/node_a1.sh"
+    # Setup key-pair
+    node_a1.vm.provision :shell, privileged: false, inline: "cp /vagrant/files/node_a1_keypair/* /home/vagrant/.ssh/"
     # Run Nebula
     node_a1.vm.provision :shell, run: "always", inline: "nohup /vagrant/files/nebula -config /vagrant/config/node-a1/config.yml &> /vagrant/logs/node_a1.out&", privileged: true
     node_a1.vm.post_up_message = "(Node) 'A1' that emulates an end point in site A -- IS UP AND READY !!!"

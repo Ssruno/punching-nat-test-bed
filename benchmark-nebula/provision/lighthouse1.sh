@@ -23,5 +23,4 @@ cd /vagrant/files/
 /vagrant/files/nebula-cert sign -name "node-a1"     -ip "192.200.1.5/24" 
 
 # We generate key-pair for scp or rsync without passphrase
-ssh-keygen -b 2048 -t rsa -f /home/vagrant/.ssh/id_rsa -q -N ""
-cp /home/vagrant/.ssh/id_rsa.pub /vagrant/benchmark/destination/
+# ssh-keygen -b 2048 -t rsa -f /home/vagrant/.ssh/id_rsa -q -N ""

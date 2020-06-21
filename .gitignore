@@ -7,3 +7,4 @@ nebula-cert
 *.tar.gz
 *.log
 *.out
+*.dat

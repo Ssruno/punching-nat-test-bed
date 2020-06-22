@@ -1,5 +1,5 @@
 ## Network with one (1) Nebula lighthouse and only one node
-![Net Diagram](../docs/experiment_01_nebula v0.8-alpha.png  "Net Diagram")
+![Net Diagram](../docs/experiment_01_nebula_v0.8-alpha.png  "Net Diagram")
 
 ### Description
 

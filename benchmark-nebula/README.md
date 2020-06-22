@@ -21,10 +21,17 @@ Now we need to copy the public key of node-a1 to the lighthouse
 	cd /home/vagrant/.ssh/
 	ssh-copy-id -i id_rsa.pub vagrant@192.200.1.100
 
-Now we run the experiment
+To run the Test scenario 1 we do, the results can be found in the results folder
 
-	cd
+	vagrant ssh node_a1
+	cd ~/
 	bash /vagrant/experiments/01_nebula_delay/01_nebula_delay_experiment.sh
+
+To run the Test scenario 2 we do, the results can be found in the results folder
+
+	vagrant ssh node_a1
+	cd ~/
+	bash /vagrant/experiments/02_nebula_small_files/origin/02_nebula_small_files.sh
 
 If you want to make changes on the Nebula setup (YAML files) without rebooting the entire VMs, you can do a 'make restart' and it would "restart" the Nebula 'daemons' on the nodes
 

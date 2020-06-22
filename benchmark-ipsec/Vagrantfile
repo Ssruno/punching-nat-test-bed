@@ -1,0 +1,158 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|  
+  # =====================================
+  # Router
+  # =====================================  
+  config.vm.define "router" do |router|
+    router.vm.box = "base-punch-nat"
+    router.vm.hostname = "router"
+    # We deactive the vbguest check-up plugin, because the base image already has the corresponding version
+    router.vbguest.auto_update = false
+    # Interface towards Site A
+    router.vm.network "private_network", ip: "172.18.1.10", netmask: "255.255.0.0", virtualbox__intnet: true
+    # Interface towards Site B
+    router.vm.network "private_network", ip: "172.19.1.10", netmask: "255.255.0.0", virtualbox__intnet: true    
+    # Interface towards Lighthouse
+    router.vm.network "private_network", ip: "172.20.1.10", netmask: "255.255.0.0", virtualbox__intnet: true
+    router.vm.provider "virtualbox" do |v|
+      v.customize ['modifyvm', :id, '--intnet2', 'router-network-a']  # OK eth1 172.18.1.1
+      v.customize ['modifyvm', :id, '--intnet3', 'router-network-b']  # OK eth2 172.19.1.1
+      v.customize ['modifyvm', :id, '--intnet4', 'fake-internet']     # OK eth3 172.20.1.1
+      # This deals with the default vagrant interface, we force to use the address 192.168 instead 
+      # of the 10.0 and we force the MAC address. Otherwise all vms has the same internal address
+      v.customize ['modifyvm', :id, '--natnet1', '192.168.111.0/24']
+      v.customize ['modifyvm', :id, '--macaddress1', "5CA1AB1E0041"]
+      # Performance
+      v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+      v.memory = 512
+      v.cpus = 1
+      v.linked_clone = true
+      v.name = "router"
+    end        
+    # Install some dependencies, and define the NAT
+    router.vm.provision :shell, run: "always", path: "provision/router.sh"
+    # Create some certificates
+    router.vm.provision :shell, run: "always", path: "provision/router.sh"
+    router.vm.post_up_message = "(Fake) 'ROUTER' that emulates the connection to the internet -- IS UP AND READY !!!"
+  end
+
+  # =====================================
+  # Lighthouses
+  # =====================================
+
+  # --------------
+  # Lighthouse 1
+  # --------------
+  config.vm.define "lighthouse1" do |lighthouse1|
+    lighthouse1.vm.box = "base-punch-nat"
+    lighthouse1.vm.hostname = "lighthouse1"
+    # We deactive the vbguest check-up plugin, because the base image already has the corresponding version
+    lighthouse1.vbguest.auto_update = false    
+    # Interface 
+    lighthouse1.vm.network "private_network", ip: "172.20.1.100", netmask: "255.255.0.0", virtualbox__intnet: true
+    lighthouse1.vm.provider "virtualbox" do |v|
+      v.customize ['modifyvm', :id, '--intnet2', 'fake-internet']  # OK eth1 172.20.1.100
+      # This deals with the default vagrant interface, we force to use the address 192.168 instead 
+      # of the 10.0 and we force the MAC address. Otherwise all vms has the same internal address
+      v.customize ['modifyvm', :id, '--natnet1', '192.168.117.0/24']
+      v.customize ['modifyvm', :id, '--macaddress1', "5CA1AB1E0047"]
+      # Performance
+      v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+      v.memory = 512
+      v.cpus = 1      
+      v.linked_clone = true
+      v.name = "lighthouse1"
+    end
+     # Configuring Network Gateway for Lighthouse1
+    lighthouse1.vm.provision :shell, run: "always", inline: <<-SHELL
+        echo 'Configuring Network Gateway' && \
+        route del default gw 192.168.117.2 eth0 2>/dev/null || true && \
+        route add default gw 172.20.1.10 eth1 2>/dev/null || true && \
+        echo 'Network Gateway Configured'
+    SHELL
+    # Setup ipsec
+    lighthouse1.vm.provision :shell, path: "provision/lighthouse1.sh"
+    # Setup key-pair
+    lighthouse1.vm.provision :shell, privileged: false, inline: "cp /vagrant/files/lighthouse1_keypair/* /home/vagrant/.ssh/"
+    
+  end  
+
+  # =====================================
+  # Site A
+  # =====================================
+
+  # ----------------
+  # Gateway Site A
+  # ----------------
+  config.vm.define "gw_a" do |gw_a|
+    gw_a.vm.box = "base-punch-nat"
+    gw_a.vm.hostname = "gw-a"
+    # We deactive the vbguest check-up plugin, because the base image already has the corresponding version
+    gw_a.vbguest.auto_update = false    
+    gw_a.vm.network "private_network", ip: "10.40.40.40",  netmask: "255.255.255.0", virtualbox__intnet: true
+    gw_a.vm.network "private_network", ip: "172.18.18.18", netmask: "255.255.0.0", virtualbox__intnet: true
+    gw_a.vm.provider "virtualbox" do |v|
+      v.customize ['modifyvm', :id, '--intnet2', 'site-a']            # OK eth1 10.40.40.40
+      v.customize ['modifyvm', :id, '--intnet3', 'router-network-a']  # OK eth2 172.18.18.18
+      # This deals with the default vagrant interface, we force to use the address 192.168 instead
+      # of the 10.0 and we force the MAC address. Otherwise all vms has the same internal address      
+      v.customize ['modifyvm', :id, '--natnet1', '192.168.112.0/24']
+      v.customize ['modifyvm', :id, '--macaddress1', "5CA1AB1E0042"]
+      # Performance
+      v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+      v.memory = 512
+      v.cpus = 1      
+      v.linked_clone = true
+      v.name = "gw-a"
+    end
+     # Configuring Network Gateway for Gateway A in Site A
+    gw_a.vm.provision :shell, run: "always", inline: <<-SHELL
+        echo 'Configuring Network Gateway' && \
+        route del default gw 192.168.112.2 eth0 2>/dev/null || true && \
+        route add default gw 172.18.1.10 eth2 2>/dev/null || true && \
+        echo 'Network Gateway Configured' 
+    SHELL
+    # Install some dependencies, and define the NAT
+    gw_a.vm.provision :shell, run: "always", path: "provision/gw_a.sh"
+    gw_a.vm.post_up_message = "(Gateway) 'SITE A' that emulates the geographic site A -- IS UP AND READY !!!"
+  end
+  # ----------------
+  # Node A1
+  # ----------------
+  config.vm.define "node_a1" do |node_a1|
+    node_a1.vm.box = "base-punch-nat"
+    node_a1.vm.hostname = "node-a1"
+    # We deactive the vbguest check-up plugin, because the base image already has the corresponding version
+    node_a1.vbguest.auto_update = false    
+    node_a1.vm.network "private_network", ip: "10.40.40.5", netmask: "255.255.255.0", virtualbox__intnet: true
+    node_a1.vm.provider "virtualbox" do |v|
+      v.customize ['modifyvm', :id, '--intnet2', 'site-a']  # OK eth1 10.40.40.5
+      # This deals with the default vagrant interface, we force to use the address 192.168 instead 
+      # of the 10.0 and we force the MAC address. Otherwise all vms has the same internal address
+      v.customize ['modifyvm', :id, '--natnet1', '192.168.113.0/24']
+      v.customize ['modifyvm', :id, '--macaddress1', "5CA1AB1E0043"]
+      # Performance
+      v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+      v.memory = 512
+      v.cpus = 1      
+      v.linked_clone = true
+      v.name = "node-a1"
+    end
+    # Configuring Network Gateway for Node A1 in Site A
+    node_a1.vm.provision :shell, run: "always", inline: <<-SHELL
+        echo 'Configuring Network Gateway' && \
+        route del default gw 192.168.113.2 eth0 2>/dev/null || true && \
+        route add default gw 10.40.40.40 eth1 2>/dev/null || true && \
+        echo 'Network Gateway Configured' 
+    SHELL
+    # Install some dependencies
+    node_a1.vm.provision :shell, path: "provision/node_a1.sh"
+    # Setup key-pair
+    node_a1.vm.provision :shell, privileged: false, inline: "cp /vagrant/files/node_a1_keypair/* /home/vagrant/.ssh/"
+  end
+
+  
+
+end

@@ -30,29 +30,45 @@ cp /vagrant/config/pki/lighthouse1-key.pem  /etc/ipsec.d/private/
 cp /vagrant/config/pki/lighthouse1-cert.pem /etc/ipsec.d/certs/
 cp /vagrant/config/pki/node-a1-cert.pem     /etc/ipsec.d/certs/
 
+sudo ufw allow 500,4500/udp
+
+sudo iptables -t nat -A POSTROUTING -s 10.10.10.0/24 -o eth1 -m policy --dir out --pol ipsec -j ACCEPT
+sudo iptables -t nat -A POSTROUTING -s 10.10.10.0/24 -o eth1 -j MASQUERADE
+
 cat >/etc/ipsec.conf <<EOL
 config setup
-    charondebug="all"
-    uniqueids=no
+    charondebug="all"    
     strictcrlpolicy=no
+    uniqueids=yes
 
 conn lighthouse1-to-node-a1
+    type=tunnel
     forceencaps=yes
-    auto=route
-    closeaction=hold
-    dpdaction=hold
+    auto=start
+    #closeaction=hold
+    dpdaction=clear
     keyexchange=ikev2
-    left=172.18.18.18
-    leftsubnet=10.40.40.0/24
-    leftcert=/etc/ipsec.d/certs/node-a1-cert.pem
-    #auto=start
+
+    left=172.20.1.100
+    leftid="C=FI, O=VPN lighthouse1, CN=172.20.1.100"
+    leftcert=/etc/ipsec.d/certs/lighthouse1-cert.pem
+    leftsubnet=0.0.0.0/0
+    leftsendcert=always
+
     right=%any
-    rightsourceip=172.20.1.100/24 
-    rightid="C=FI, O=VPN Client A, CN=172.16.16.16"
+    rightid="C=FI, O=VPN node-a1, CN=10.40.40.5"
+    rightsourceip=10.10.10.0/24
+
+
+    # rightsourceip=10.40.40.5/24
+    # rightsubnet=10.40.40.0/24
+    # rightcert=/etc/ipsec.d/certs/node-a1-cert.pem
 
 EOL
 
 
 cat >/etc/ipsec.secrets <<EOL
-172.18.18.18 : RSA "/etc/ipsec.d/private/lighthouse1-key.pem"
+172.20.1.100 : RSA "/etc/ipsec.d/private/lighthouse1-key.pem"
 EOL
+
+sudo ipsec restart

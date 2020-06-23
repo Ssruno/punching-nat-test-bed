@@ -24,26 +24,33 @@ cp /vagrant/config/pki/lighthouse1-cert.pem /etc/ipsec.d/certs/
 
 cat >/etc/ipsec.conf <<EOL
 config setup
-    charondebug="all"
-    uniqueids=no
+    charondebug="all"    
     strictcrlpolicy=no
+    uniqueids=yes
 
 conn node-a1-to-lighthouse1
+    type=tunnel
     forceencaps=yes
-    auto=route
-    closeaction=hold
-    dpdaction=hold
+    auto=start
+    #closeaction=hold
+    dpdaction=clear
     keyexchange=ikev2
-    left=%any
-    leftsourceip=172.20.1.100/24    
-    leftcert=/etc/ipsec.d/certs/lighthouse1-cert.pem
-    #auto=start
-    right=172.18.18.18
-    rightsubnet=10.40.40.0/24
-    rightid="C=FI, O=VPN Client A, CN=172.16.16.16"
+
+    right=172.20.1.100    
+    rightid="C=FI, O=VPN lighthouse1, CN=172.20.1.100"
+    rightsubnet=0.0.0.0/0
+    rightcert=/etc/ipsec.d/certs/lighthouse1-cert.pem
+
+    leftsourceip=%config
+    # left=10.40.40.5
+    leftid="C=FI, O=VPN node-a1, CN=10.40.40.5"
+    leftcert=/etc/ipsec.d/certs/node-a1-cert.pem
+
 
 EOL
 
 cat >/etc/ipsec.secrets <<EOL
-172.40.40.5 : RSA "/etc/ipsec.d/private/node-a1-key.pem"
+10.40.40.5 : RSA "/etc/ipsec.d/private/node-a1-key.pem"
 EOL
+
+sudo ipsec restart

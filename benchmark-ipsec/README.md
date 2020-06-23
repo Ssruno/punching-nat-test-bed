@@ -1,13 +1,13 @@
-## Network with one (1) Nebula lighthouse and only one node
+## Network with one (1) VPN Server and only one node
 ![Net Diagram](../docs/experiment_01_nebula_v0.8-alpha.png  "Net Diagram")
 
 ### Description
 
-There is one lighthouse (lighthouse1) that is connected to the router. Gateway A have a SNAT configured. Node a1 can reach the given Lighthouse without problems. 
+There is one VPN Sever called lighthouse1 that is connected to the router. Gateway A have a SNAT configured. Node a1 can reach the given VPN server.
 
 #### Run the experiment
 
-First you need to [install the base box image](../boxes/README.md "install the base box image"), then proceed with:
+First you need to [install the ipsec box image](../boxes/README.md "install the base box image"), then proceed with:
 
 	vagrant up
 	
@@ -15,32 +15,33 @@ To access the VMs, run:
 
 	vagrant ssh <lighthouse1|node_a1|gw_a|router|>
 
+Run the following script in <lighthouse1> and <node-a1>
+
+	ssh-keygen -b 2048 -t rsa -f /home/vagrant/.ssh/id_rsa -q -N ""
+
 Now we need to copy the public key of node-a1 to the lighthouse
 
 	vagrant ssh node_a1
 	cd /home/vagrant/.ssh/
-	ssh-copy-id -i id_rsa.pub vagrant@192.200.1.100
+	ssh-copy-id -i id_rsa.pub vagrant@172.20.1.100
 
-To run the Test scenario 1 we do, the results can be found in the results folder
-
-	vagrant ssh node_a1
-	cd ~/
-	bash /vagrant/experiments/01_nebula_delay/01_nebula_delay_experiment.sh
-
-To run the Test scenario 2 we do, the results can be found in the results folder
+To run the Test scenario 3 we do, the results can be found in the results folder
 
 	vagrant ssh node_a1
 	cd ~/
-	bash /vagrant/experiments/02_nebula_small_files/origin/02_nebula_small_files.sh
+	bash /vagrant/experiments/03_ipsec_delay/origin/03_ipsec_delay_experiment.sh
 
-If you want to make changes on the Nebula setup (YAML files) without rebooting the entire VMs, you can do a 'make restart' and it would "restart" the Nebula 'daemons' on the nodes
+You can check the encapsulated packages in router with
 
->	`make restart`
+	vagrant ssh router
+	sudo tcpdump -i eth1  -vv -X
+
 
 #### List of Virtual Machines
 - router
 - gw_a
 - node_a1
+- lighthouse1
 
 
 #### Tested with
@@ -49,7 +50,7 @@ If you want to make changes on the Nebula setup (YAML files) without rebooting t
 	- box: "base_punch", [see the docs](../boxes/README.md "see the docs").
 - Virtualbox (v 6.1.4-2)
 	- Networking mode of interfaces: "Internal networking" (intnet)
-- Nebula v 1.2.0
+- Strongswan
 
 #### DEBUG: 
 - On the "logs" folder/directory of this project you can find the (realtime) output of nebula with "debug" level of verbosity

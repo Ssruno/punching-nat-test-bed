@@ -6,7 +6,7 @@ Vagrant.configure("2") do |config|
   # Router
   # =====================================  
   config.vm.define "router" do |router|
-    router.vm.box = "base-punch-nat"
+    router.vm.box = "base-ipsec"
     router.vm.hostname = "router"
     # We deactive the vbguest check-up plugin, because the base image already has the corresponding version
     router.vbguest.auto_update = false
@@ -44,7 +44,7 @@ Vagrant.configure("2") do |config|
   # Lighthouse 1
   # --------------
   config.vm.define "lighthouse1" do |lighthouse1|
-    lighthouse1.vm.box = "base-punch-nat"
+    lighthouse1.vm.box = "base-ipsec"
     lighthouse1.vm.hostname = "lighthouse1"
     # We deactive the vbguest check-up plugin, because the base image already has the corresponding version
     lighthouse1.vbguest.auto_update = false    
@@ -74,7 +74,7 @@ Vagrant.configure("2") do |config|
     lighthouse1.vm.provision :shell, path: "provision/lighthouse1.sh", run: "always"
     # Setup key-pair
     # lighthouse1.vm.provision :shell, privileged: false, inline: "cp /vagrant/files/lighthouse1_keypair/* /home/vagrant/.ssh/"
-    
+    lighthouse1.vm.post_up_message = "(Lighthouse1)  -- IS UP AND READY !!!"
   end  
 
   # =====================================
@@ -85,7 +85,7 @@ Vagrant.configure("2") do |config|
   # Gateway Site A
   # ----------------
   config.vm.define "gw_a" do |gw_a|
-    gw_a.vm.box = "base-punch-nat"
+    gw_a.vm.box = "base-ipsec"
     gw_a.vm.hostname = "gw-a"
     # We deactive the vbguest check-up plugin, because the base image already has the corresponding version
     gw_a.vbguest.auto_update = false    
@@ -120,7 +120,7 @@ Vagrant.configure("2") do |config|
   # Node A1
   # ----------------
   config.vm.define "node_a1" do |node_a1|
-    node_a1.vm.box = "base-punch-nat"
+    node_a1.vm.box = "base-ipsec"
     node_a1.vm.hostname = "node-a1"
     # We deactive the vbguest check-up plugin, because the base image already has the corresponding version
     node_a1.vbguest.auto_update = false    

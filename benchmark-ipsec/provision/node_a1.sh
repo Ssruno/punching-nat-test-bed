@@ -31,8 +31,7 @@ config setup
 conn node-a1-to-lighthouse1
     type=tunnel
     forceencaps=yes
-    auto=start
-    #closeaction=hold
+    auto=start    
     dpdaction=clear
     keyexchange=ikev2
 
@@ -41,11 +40,9 @@ conn node-a1-to-lighthouse1
     rightsubnet=172.20.1.0/24
     rightcert=/etc/ipsec.d/certs/lighthouse1-cert.pem
 
-    leftsourceip=%config
-    # left=10.40.40.5
+    leftsourceip=%config    
     leftid="C=FI, O=VPN node-a1, CN=10.40.40.5"
     leftcert=/etc/ipsec.d/certs/node-a1-cert.pem
-
 
 EOL
 

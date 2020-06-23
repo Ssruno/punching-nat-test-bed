@@ -15,3 +15,35 @@
 
 # Manually run this
 # ssh-copy-id -i id_rsa.pub vagrant@192.200.1.100
+
+
+cp /vagrant/config/pki/server-root-ca.pem   /etc/ipsec.d/cacerts/
+cp /vagrant/config/pki/node-a1-key.pem      /etc/ipsec.d/private/
+cp /vagrant/config/pki/node-a1-cert.pem     /etc/ipsec.d/certs/
+cp /vagrant/config/pki/lighthouse1-cert.pem /etc/ipsec.d/certs/
+
+cat >/etc/ipsec.conf <<EOL
+config setup
+    charondebug="all"
+    uniqueids=no
+    strictcrlpolicy=no
+
+conn node-a1-to-lighthouse1
+    forceencaps=yes
+    auto=route
+    closeaction=hold
+    dpdaction=hold
+    keyexchange=ikev2
+    left=%any
+    leftsourceip=172.20.1.100/24    
+    leftcert=/etc/ipsec.d/certs/lighthouse1-cert.pem
+    #auto=start
+    right=172.18.18.18
+    rightsubnet=10.40.40.0/24
+    rightid="C=FI, O=VPN Client A, CN=172.16.16.16"
+
+EOL
+
+cat >/etc/ipsec.secrets <<EOL
+172.40.40.5 : RSA "/etc/ipsec.d/private/node-a1-key.pem"
+EOL

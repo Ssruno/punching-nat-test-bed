@@ -24,3 +24,35 @@
 
 # We generate key-pair for scp or rsync without passphrase
 # ssh-keygen -b 2048 -t rsa -f /home/vagrant/.ssh/id_rsa -q -N ""
+
+cp /vagrant/config/pki/server-root-ca.pem   /etc/ipsec.d/cacerts/
+cp /vagrant/config/pki/lighthouse1-key.pem  /etc/ipsec.d/private/
+cp /vagrant/config/pki/lighthouse1-cert.pem /etc/ipsec.d/certs/
+cp /vagrant/config/pki/node-a1-cert.pem     /etc/ipsec.d/certs/
+
+cat >/etc/ipsec.conf <<EOL
+config setup
+    charondebug="all"
+    uniqueids=no
+    strictcrlpolicy=no
+
+conn lighthouse1-to-node-a1
+    forceencaps=yes
+    auto=route
+    closeaction=hold
+    dpdaction=hold
+    keyexchange=ikev2
+    left=172.18.18.18
+    leftsubnet=10.40.40.0/24
+    leftcert=/etc/ipsec.d/certs/node-a1-cert.pem
+    #auto=start
+    right=%any
+    rightsourceip=172.20.1.100/24 
+    rightid="C=FI, O=VPN Client A, CN=172.16.16.16"
+
+EOL
+
+
+cat >/etc/ipsec.secrets <<EOL
+172.18.18.18 : RSA "/etc/ipsec.d/private/lighthouse1-key.pem"
+EOL

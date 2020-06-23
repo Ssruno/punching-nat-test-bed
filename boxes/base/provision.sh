@@ -13,7 +13,7 @@ sudo sysctl -p /etc/sysctl.conf
 sudo apt-get -y install dialog debconf-utils apt-utils iputils-ping iptables iputils-tracepath traceroute netcat conntrack nmap wget rsync
 
 # Install IPsec tools
-sudo apt-get -y install strongswan moreutils iptables-persistent strongswan-pki strongswan-swanctl ipvsadm
+sudo apt-get -y install strongswan moreutils 
 
 
 # Install iptables-persistent

@@ -30,10 +30,8 @@ Vagrant.configure("2") do |config|
       v.cpus = 1
       v.linked_clone = true
       v.name = "router"
-    end        
-    # Install some dependencies, and define the NAT
-    router.vm.provision :shell, run: "always", path: "provision/router.sh"
-    # Create some certificates
+    end            
+    # Create some certificates and NAT
     router.vm.provision :shell, run: "always", path: "provision/router.sh"
     router.vm.post_up_message = "(Fake) 'ROUTER' that emulates the connection to the internet -- IS UP AND READY !!!"
   end
@@ -75,7 +73,7 @@ Vagrant.configure("2") do |config|
     # Setup ipsec
     lighthouse1.vm.provision :shell, path: "provision/lighthouse1.sh"
     # Setup key-pair
-    lighthouse1.vm.provision :shell, privileged: false, inline: "cp /vagrant/files/lighthouse1_keypair/* /home/vagrant/.ssh/"
+    # lighthouse1.vm.provision :shell, privileged: false, inline: "cp /vagrant/files/lighthouse1_keypair/* /home/vagrant/.ssh/"
     
   end  
 
@@ -150,7 +148,7 @@ Vagrant.configure("2") do |config|
     # Install some dependencies
     node_a1.vm.provision :shell, path: "provision/node_a1.sh"
     # Setup key-pair
-    node_a1.vm.provision :shell, privileged: false, inline: "cp /vagrant/files/node_a1_keypair/* /home/vagrant/.ssh/"
+    # node_a1.vm.provision :shell, privileged: false, inline: "cp /vagrant/files/node_a1_keypair/* /home/vagrant/.ssh/"
   end
 
   

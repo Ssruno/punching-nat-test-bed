@@ -38,7 +38,7 @@ conn node-a1-to-lighthouse1
 
     right=172.20.1.100    
     rightid="C=FI, O=VPN lighthouse1, CN=172.20.1.100"
-    rightsubnet=0.0.0.0/0
+    rightsubnet=172.20.1.0/24
     rightcert=/etc/ipsec.d/certs/lighthouse1-cert.pem
 
     leftsourceip=%config

@@ -32,8 +32,8 @@ cp /vagrant/config/pki/node-a1-cert.pem     /etc/ipsec.d/certs/
 
 sudo ufw allow 500,4500/udp
 
-sudo iptables -t nat -A POSTROUTING -s 10.10.10.0/24 -o eth1 -m policy --dir out --pol ipsec -j ACCEPT
-sudo iptables -t nat -A POSTROUTING -s 10.10.10.0/24 -o eth1 -j MASQUERADE
+sudo iptables -t nat -A POSTROUTING -s 10.40.40.0/24 -o eth1 -m policy --dir out --pol ipsec -j ACCEPT
+sudo iptables -t nat -A POSTROUTING -s 10.40.40.0/24 -o eth1 -j MASQUERADE
 
 cat >/etc/ipsec.conf <<EOL
 config setup
@@ -57,12 +57,7 @@ conn lighthouse1-to-node-a1
 
     right=%any
     rightid="C=FI, O=VPN node-a1, CN=10.40.40.5"
-    rightsourceip=10.10.10.0/24
-
-
-    # rightsourceip=10.40.40.5/24
-    # rightsubnet=10.40.40.0/24
-    # rightcert=/etc/ipsec.d/certs/node-a1-cert.pem
+    rightsourceip=10.40.40.5
 
 EOL
 

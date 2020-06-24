@@ -1,4 +1,4 @@
-seconds;size;filename;iteration
+seconds,size,filename,iteration
 0.44, 1M, 01_origin_file_0001M.dat, 1
 0.46, 1M, 01_origin_file_0001M.dat, 2
 0.53, 1M, 01_origin_file_0001M.dat, 3

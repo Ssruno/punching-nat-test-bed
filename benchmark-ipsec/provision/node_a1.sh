@@ -14,6 +14,11 @@ cp /vagrant/config/pki/node-a1-key.pem      /etc/ipsec.d/private/
 cp /vagrant/config/pki/node-a1-cert.pem     /etc/ipsec.d/certs/
 cp /vagrant/config/pki/lighthouse1-cert.pem /etc/ipsec.d/certs/
 
+# To make it similar to nebula
+# sudo ifconfig eth1 mtu 1300
+# sudo ifconfig eth1 txqueuelen 500
+# sudo route add default gw 10.40.40.40 eth1
+
 cat >/etc/ipsec.conf <<EOL
 config setup
     charondebug="all"    
@@ -45,4 +50,4 @@ cat >/etc/ipsec.secrets <<EOL
 10.40.40.5 : RSA "/etc/ipsec.d/private/node-a1-key.pem"
 EOL
 
-sudo ipsec restart
+#sudo ipsec restart

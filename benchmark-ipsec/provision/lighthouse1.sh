@@ -12,6 +12,11 @@ cp /vagrant/config/pki/node-a1-cert.pem     /etc/ipsec.d/certs/
 
 sudo ufw allow 500,4500/udp
 
+# To make it similar to nebula
+# sudo ifconfig eth1 mtu 1300
+# sudo ifconfig eth1 txqueuelen 500
+# sudo route add default gw 172.20.1.10 eth1
+
 sudo iptables -t nat -A POSTROUTING -s 10.40.40.0/24 -o eth1 -m policy --dir out --pol ipsec -j ACCEPT
 sudo iptables -t nat -A POSTROUTING -s 10.40.40.0/24 -o eth1 -j MASQUERADE
 
@@ -48,4 +53,4 @@ cat >/etc/ipsec.secrets <<EOL
 172.20.1.100 : RSA "/etc/ipsec.d/private/lighthouse1-key.pem"
 EOL
 
-sudo ipsec restart
+# sudo ipsec restart

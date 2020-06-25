@@ -1,0 +1,11 @@
+seconds;size;filename;iteration
+94.21; 1000M; 06_origin_file_1000M.dat; 1
+97.20; 1000M; 06_origin_file_1000M.dat; 2
+91.43; 1000M; 06_origin_file_1000M.dat; 3
+90.14; 1000M; 06_origin_file_1000M.dat; 4
+95.58; 1000M; 06_origin_file_1000M.dat; 5
+94.78; 1000M; 06_origin_file_1000M.dat; 6
+90.99; 1000M; 06_origin_file_1000M.dat; 7
+92.12; 1000M; 06_origin_file_1000M.dat; 8
+90.88; 1000M; 06_origin_file_1000M.dat; 9
+92.16; 1000M; 06_origin_file_1000M.dat; 10

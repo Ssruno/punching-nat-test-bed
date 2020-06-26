@@ -1,0 +1,7 @@
+seconds;size;filename;iteration
+261.00; 500M; 05_origin_file_0500M.dat; 1
+214.49; 500M; 05_origin_file_0500M.dat; 2
+316.78; 500M; 05_origin_file_0500M.dat; 3
+295.09; 500M; 05_origin_file_0500M.dat; 4
+Command terminated by signal 2
+176.07; 500M; 05_origin_file_0500M.dat; 5

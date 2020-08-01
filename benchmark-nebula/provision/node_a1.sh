@@ -15,3 +15,6 @@
 
 # Manually run this
 # ssh-copy-id -i id_rsa.pub vagrant@192.200.1.100
+
+
+sudo apt-get -y install iperf3

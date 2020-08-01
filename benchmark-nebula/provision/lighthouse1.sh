@@ -24,3 +24,5 @@ cd /vagrant/files/
 
 # We generate key-pair for scp or rsync without passphrase
 # ssh-keygen -b 2048 -t rsa -f /home/vagrant/.ssh/id_rsa -q -N ""
+
+sudo apt-get -y install iperf3

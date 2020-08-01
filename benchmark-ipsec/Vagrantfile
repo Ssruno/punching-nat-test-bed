@@ -25,9 +25,9 @@ Vagrant.configure("2") do |config|
       v.customize ['modifyvm', :id, '--natnet1', '192.168.111.0/24']
       v.customize ['modifyvm', :id, '--macaddress1', "5CA1AB1E0041"]
       # Performance
-      v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
-      v.memory = 512
-      v.cpus = 1
+      # v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+      v.memory = 1024
+      v.cpus = 4
       v.linked_clone = true
       v.name = "router"
     end            
@@ -57,9 +57,9 @@ Vagrant.configure("2") do |config|
       v.customize ['modifyvm', :id, '--natnet1', '192.168.117.0/24']
       v.customize ['modifyvm', :id, '--macaddress1', "5CA1AB1E0047"]
       # Performance
-      v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
-      v.memory = 512
-      v.cpus = 1      
+      # v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+      v.memory = 1024
+      v.cpus = 4 
       v.linked_clone = true
       v.name = "lighthouse1"
     end
@@ -99,9 +99,9 @@ Vagrant.configure("2") do |config|
       v.customize ['modifyvm', :id, '--natnet1', '192.168.112.0/24']
       v.customize ['modifyvm', :id, '--macaddress1', "5CA1AB1E0042"]
       # Performance
-      v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
-      v.memory = 512
-      v.cpus = 1      
+      # v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+      v.memory = 1024
+      v.cpus = 4      
       v.linked_clone = true
       v.name = "gw-a"
     end
@@ -132,9 +132,9 @@ Vagrant.configure("2") do |config|
       v.customize ['modifyvm', :id, '--natnet1', '192.168.113.0/24']
       v.customize ['modifyvm', :id, '--macaddress1', "5CA1AB1E0043"]
       # Performance
-      v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
-      v.memory = 512
-      v.cpus = 1      
+      # v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+      v.memory = 1024
+      v.cpus = 4      
       v.linked_clone = true
       v.name = "node-a1"
     end

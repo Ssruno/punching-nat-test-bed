@@ -11,9 +11,11 @@
 
 destination="172.20.1.100"
 size_of_files=(1M 10M 50M 100M 500M 1000M)
+# size_of_files=(1000M)
 #name_of_files=(ls  /vagrant/benchmark/origin/*.dat | xargs -n1 basename)
 #name_of_files=()
 name_of_files=(01_origin_file_0001M.dat 02_origin_file_0010M.dat 03_origin_file_0050M.dat 04_origin_file_0100M.dat 05_origin_file_0500M.dat 06_origin_file_1000M.dat)
+# name_of_files=(06_origin_file_1000M.dat)
 #for i in `ls /vagrant/benchmark/origin/*.dat` ;do name_of_files+=(basename $i);done
 
 #echo ${name_of_files[@]}

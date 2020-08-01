@@ -53,4 +53,6 @@ cat >/etc/ipsec.secrets <<EOL
 172.20.1.100 : RSA "/etc/ipsec.d/private/lighthouse1-key.pem"
 EOL
 
+# sudo apt-get install -y iperf3
+
 # sudo ipsec restart

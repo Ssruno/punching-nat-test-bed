@@ -1,0 +1,43 @@
+seconds;size;filename;iteration
+/vagrant/experiments/01_nebula_delay/origin/01_origin_file_0001M.dat: No such file or directory
+Command exited with non-zero status 1
+0.40; 1M; 01_origin_file_0001M.dat; 1
+/vagrant/experiments/01_nebula_delay/origin/01_origin_file_0001M.dat: No such file or directory
+Command exited with non-zero status 1
+0.33; 1M; 01_origin_file_0001M.dat; 2
+/vagrant/experiments/01_nebula_delay/origin/01_origin_file_0001M.dat: No such file or directory
+Command exited with non-zero status 1
+0.33; 1M; 01_origin_file_0001M.dat; 3
+/vagrant/experiments/01_nebula_delay/origin/01_origin_file_0001M.dat: No such file or directory
+Command exited with non-zero status 1
+0.31; 1M; 01_origin_file_0001M.dat; 4
+/vagrant/experiments/01_nebula_delay/origin/01_origin_file_0001M.dat: No such file or directory
+Command exited with non-zero status 1
+0.49; 1M; 01_origin_file_0001M.dat; 5
+/vagrant/experiments/01_nebula_delay/origin/01_origin_file_0001M.dat: No such file or directory
+Command exited with non-zero status 1
+0.35; 1M; 01_origin_file_0001M.dat; 6
+/vagrant/experiments/01_nebula_delay/origin/01_origin_file_0001M.dat: No such file or directory
+Command exited with non-zero status 1
+0.31; 1M; 01_origin_file_0001M.dat; 7
+/vagrant/experiments/01_nebula_delay/origin/01_origin_file_0001M.dat: No such file or directory
+Command exited with non-zero status 1
+0.38; 1M; 01_origin_file_0001M.dat; 8
+/vagrant/experiments/01_nebula_delay/origin/01_origin_file_0001M.dat: No such file or directory
+Command exited with non-zero status 1
+0.37; 1M; 01_origin_file_0001M.dat; 9
+/vagrant/experiments/01_nebula_delay/origin/01_origin_file_0001M.dat: No such file or directory
+Command exited with non-zero status 1
+0.36; 1M; 01_origin_file_0001M.dat; 10
+/vagrant/experiments/01_nebula_delay/origin/01_origin_file_0001M.dat: No such file or directory
+Command exited with non-zero status 1
+0.36; 1M; 01_origin_file_0001M.dat; 11
+/vagrant/experiments/01_nebula_delay/origin/01_origin_file_0001M.dat: No such file or directory
+Command exited with non-zero status 1
+0.32; 1M; 01_origin_file_0001M.dat; 12
+/vagrant/experiments/01_nebula_delay/origin/01_origin_file_0001M.dat: No such file or directory
+Command exited with non-zero status 1
+0.31; 1M; 01_origin_file_0001M.dat; 13
+/vagrant/experiments/01_nebula_delay/origin/01_origin_file_0001M.dat: No such file or directory
+Command exited with non-zero status 1
+0.33; 1M; 01_origin_file_0001M.dat; 14

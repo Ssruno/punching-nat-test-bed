@@ -50,6 +50,6 @@ cat >/etc/ipsec.secrets <<EOL
 10.40.40.5 : RSA "/etc/ipsec.d/private/node-a1-key.pem"
 EOL
 
-# sudo apt-get install -y iperf3
+sudo apt-get install -y iperf3 rsync
 
 #sudo ipsec restart

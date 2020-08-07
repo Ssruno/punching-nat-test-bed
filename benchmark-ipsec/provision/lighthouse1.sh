@@ -53,6 +53,23 @@ cat >/etc/ipsec.secrets <<EOL
 172.20.1.100 : RSA "/etc/ipsec.d/private/lighthouse1-key.pem"
 EOL
 
-# sudo apt-get install -y iperf3
+sudo apt-get install -y iperf3 rsync
+
+sudo cat >/etc/rsyncd.conf  <<EOL
+pid file = /var/run/rsyncd.pid
+lock file = /var/run/rsync.lock
+log file = /var/log/rsync.log
+port = 12000
+
+[files]
+path = /vagrant/experiments/13_rsync_ipsec/destination/
+comment = Primary file server
+read only = no
+timeout = 300
+
+EOL
+
+sudo chmod o+w /vagrant/experiments/13_rsync_ipsec/destination/
+sudo rsync --daemon
 
 # sudo ipsec restart
